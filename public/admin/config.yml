@@ -1,6 +1,6 @@
 backend:
   name: github
-  repo: whoistul/whoistul-website
+  repo: ksurapas/whoistul
   branch: main
 
 media_folder: "src/content/blog/images"
