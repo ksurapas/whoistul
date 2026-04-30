@@ -20,23 +20,24 @@ const { milestones } = Astro.props;
 
 <Section id="timeline" class="!px-0">
   {milestones.length > 0 ? (
-    <div class="timeline-container relative max-w-5xl mx-auto px-4 sm:px-6">
-      {/* Center vertical line — hidden on mobile */}
-      <div class="hidden md:block absolute left-1/2 -translate-x-px top-0 bottom-0 w-[3px] bg-border" aria-hidden="true"></div>
+    <div class="relative max-w-5xl mx-auto px-4 sm:px-6">
+      {/* Center vertical line */}
+      <div class="hidden md:block absolute left-1/2 -translate-x-[1.5px] top-0 bottom-0 w-[3px] bg-border" aria-hidden="true"></div>
 
-      {milestones.map((milestone, index) => {
-        const textOnLeft = index % 2 === 0;
-        return (
-          <div class="timeline-entry relative pb-24 last:pb-0">
-            {/* Center dot — hidden on mobile */}
-            <div class="hidden md:flex absolute left-1/2 -translate-x-1/2 top-6 z-10 w-5 h-5 rounded-full bg-text border-4 border-bg shadow-md" aria-hidden="true"></div>
+      <div class="space-y-0">
+        {milestones.map((milestone, index) => {
+          const textOnLeft = index % 2 === 0;
+          return (
+            <div class="relative md:flex md:items-start pb-20 last:pb-0">
+              {/* Dot — aligned with the title */}
+              <div class="hidden md:block absolute left-1/2 -translate-x-1/2 top-[2px] z-10">
+                <div class="w-5 h-5 rounded-full bg-text border-4 border-bg shadow-md"></div>
+              </div>
 
-            {/* Two-column grid */}
-            <div class="grid grid-cols-1 md:grid-cols-[1fr_60px_1fr] items-start">
-              {/* Left column */}
-              <div class:list={['px-2 sm:px-4', textOnLeft ? '' : 'md:order-1']}>
-                {textOnLeft ? (
-                  <div class="md:text-right md:pr-4">
+              {textOnLeft ? (
+                <>
+                  {/* Text on left */}
+                  <div class="md:w-1/2 md:pr-10 md:text-right">
                     <span class="inline-block text-sm font-body text-text-muted mb-2 px-3 py-1 bg-bg-alt rounded-full">
                       {milestone.date}
                     </span>
@@ -50,24 +51,19 @@ const { milestones } = Astro.props;
                       {milestone.description}
                     </p>
                   </div>
-                ) : (
-                  <div class="md:pr-4">
+                  {/* Image on right */}
+                  <div class="md:w-1/2 md:pl-10 mt-4 md:mt-0">
                     <ImageCarousel id={milestone.id} placeholderCount={milestone.imageCount ?? 3} />
                   </div>
-                )}
-              </div>
-
-              {/* Center spacer (for the dot) */}
-              <div class="hidden md:block" />
-
-              {/* Right column */}
-              <div class:list={['px-2 sm:px-4 mt-4 md:mt-0', textOnLeft ? '' : 'md:order-3']}>
-                {textOnLeft ? (
-                  <div class="md:pl-4">
-                    <ImageCarousel id={milestone.id} placeholderCount={milestone.imageCount ?? 3} />
+                </>
+              ) : (
+                <>
+                  {/* Image on left */}
+                  <div class="md:w-1/2 md:pr-10">
+                    <ImageCarousel id={`${milestone.id}-left`} placeholderCount={milestone.imageCount ?? 3} />
                   </div>
-                ) : (
-                  <div class="md:pl-4">
+                  {/* Text on right */}
+                  <div class="md:w-1/2 md:pl-10 mt-4 md:mt-0">
                     <span class="inline-block text-sm font-body text-text-muted mb-2 px-3 py-1 bg-bg-alt rounded-full">
                       {milestone.date}
                     </span>
@@ -81,12 +77,12 @@ const { milestones } = Astro.props;
                       {milestone.description}
                     </p>
                   </div>
-                )}
-              </div>
+                </>
+              )}
             </div>
-          </div>
-        );
-      })}
+          );
+        })}
+      </div>
     </div>
   ) : (
     <p class="text-center text-text-muted font-body">No milestones yet. Check back soon.</p>

@@ -87,6 +87,15 @@ const slides = Array.from({ length: placeholderCount }, (_, i) => i);
     nextBtn?.addEventListener('click', () => goTo(current + 1));
     dots.forEach((dot, i) => dot.addEventListener('click', () => goTo(i)));
 
+    // Auto-advance every 5 seconds
+    let autoTimer = setInterval(() => goTo(current + 1), 5000);
+
+    // Pause auto-advance on hover, resume on leave
+    carousel.addEventListener('mouseenter', () => clearInterval(autoTimer));
+    carousel.addEventListener('mouseleave', () => {
+      autoTimer = setInterval(() => goTo(current + 1), 5000);
+    });
+
     // Touch/swipe support
     let startX = 0;
     let isDragging = false;
