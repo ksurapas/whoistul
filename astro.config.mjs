@@ -3,7 +3,8 @@ import tailwind from '@astrojs/tailwind';
 import sitemap from '@astrojs/sitemap';
 
 export default defineConfig({
-  site: 'https://www.whoistul.com',
+  site: 'https://ksurapas.github.io',
+  base: '/whoistul',
   integrations: [tailwind(), sitemap()],
   output: 'static',
   build: {
