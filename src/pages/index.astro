@@ -1,36 +1,27 @@
 ---
 import { getCollection } from 'astro:content';
 import BaseLayout from '../components/BaseLayout.astro';
-import HeroSection from '../components/HeroSection.astro';
-import IntroSection from '../components/IntroSection.astro';
-import NowSection from '../components/NowSection.astro';
+import HeroBanner from '../components/HeroBanner.astro';
 import FeaturedCards from '../components/FeaturedCards.astro';
 import CTASection from '../components/CTASection.astro';
-import { sortByDateDesc } from '../lib/utils';
+import { sortByDateDesc, formatDate } from '../lib/utils';
 
-// Fetch home page content for intro
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+
+// Fetch home page content
 const homeEntry = await getCollection('pages').then((pages) =>
   pages.find((p) => p.slug === 'home')
 );
-
-// Fetch now content collection
-const nowEntries = await getCollection('now');
-const nowEntry = nowEntries[0];
 
 // Fetch blog posts: filter out drafts, sort by date desc, take up to 3
 const allBlogPosts = await getCollection('blog', ({ data }) => !data.draft);
 const latestPosts = sortByDateDesc(allBlogPosts).slice(0, 3);
 
-// Map blog posts to featured card items
-const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 const featuredItems = latestPosts.map((post) => ({
   title: post.data.title,
   description: post.data.excerpt,
   href: `${base}/blog/${post.slug}`,
 }));
-
-// Render now entry body
-const nowRendered = nowEntry ? await nowEntry.render() : null;
 ---
 
 <BaseLayout
@@ -38,23 +29,92 @@ const nowRendered = nowEntry ? await nowEntry.render() : null;
   description={homeEntry?.data.description ?? 'Tul — Data Analyst, Economics graduate, and curious generalist based in Bangkok.'}
   currentPage="home"
 >
-  <HeroSection
-    headline="Hi, I'm Tul"
+  <!-- Full-width hero banner -->
+  <HeroBanner
+    headline="H E L L O."
     subheadline="Data Analyst at PwC Thailand. Economics graduate. Curious generalist."
+    ctaText="Explore Journey"
+    ctaHref={`${base}/journey`}
   />
 
-  {homeEntry && (
-    <IntroSection content={homeEntry.body ?? ''} />
-  )}
+  <!-- About section with scroll-reveal -->
+  <section class="py-20 reveal-section">
+    <div class="max-w-3xl mx-auto text-center">
+      <h2 class="text-2xl md:text-3xl font-bold font-display text-text mb-6 reveal-item">About</h2>
+      <p class="text-lg text-text-muted font-body leading-relaxed reveal-item">
+        I'm Tul — a Data Analyst at PwC Thailand with a background in Economics from Chulalongkorn University.
+        I spend my days turning data into insights and my weekends behind a camera or on a badminton court.
+        This site is a space for my work, my interests, and the things I'm learning along the way.
+      </p>
+    </div>
+  </section>
 
-  {nowEntry && nowRendered && (
-    <NowSection
-      content={nowEntry.body ?? ''}
-      lastUpdated={nowEntry.data.lastUpdated}
-    />
-  )}
+  <!-- Latest from the blog -->
+  <section class="py-16 reveal-section">
+    <h2 class="text-2xl md:text-3xl font-bold font-display text-text text-center mb-10 reveal-item">Latest</h2>
 
-  <FeaturedCards items={featuredItems} />
+    {latestPosts.length > 0 ? (
+      <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 reveal-item">
+        {latestPosts.map((post) => (
+          <a
+            href={`${base}/blog/${post.slug}`}
+            class="group block bg-card border border-border rounded-2xl overflow-hidden hover:shadow-lg transition-all duration-500 hover:-translate-y-1"
+          >
+            <div class="aspect-video bg-bg-alt flex items-center justify-center overflow-hidden">
+              <div class="w-full h-full bg-gradient-to-br from-bg-alt to-border flex items-center justify-center group-hover:scale-105 transition-transform duration-700">
+                <svg class="w-8 h-8 text-text-muted/20" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 6.042A8.967 8.967 0 006 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 016 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 016-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0018 18a8.967 8.967 0 00-6 2.292m0-14.25v14.25" />
+                </svg>
+              </div>
+            </div>
+            <div class="p-5">
+              <time class="text-xs text-text-muted font-body">{formatDate(post.data.date)}</time>
+              <h3 class="mt-1 text-lg font-semibold font-display text-text group-hover:text-accent transition-colors duration-300">{post.data.title}</h3>
+              {post.data.excerpt && (
+                <p class="mt-2 text-sm text-text-muted line-clamp-2">{post.data.excerpt}</p>
+              )}
+            </div>
+          </a>
+        ))}
+      </div>
+    ) : (
+      <p class="text-center text-text-muted font-body">No posts yet. Check back soon.</p>
+    )}
+  </section>
 
+  <!-- CTA -->
   <CTASection />
 </BaseLayout>
+
+<script>
+  // Scroll-reveal animation using IntersectionObserver
+  const revealSections = document.querySelectorAll('.reveal-section');
+
+  const observer = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          const items = entry.target.querySelectorAll('.reveal-item');
+          items.forEach((item, i) => {
+            setTimeout(() => {
+              (item as HTMLElement).style.opacity = '1';
+              (item as HTMLElement).style.transform = 'translateY(0)';
+            }, i * 150);
+          });
+          observer.unobserve(entry.target);
+        }
+      });
+    },
+    { threshold: 0.15 }
+  );
+
+  revealSections.forEach((section) => {
+    const items = section.querySelectorAll('.reveal-item');
+    items.forEach((item) => {
+      (item as HTMLElement).style.opacity = '0';
+      (item as HTMLElement).style.transform = 'translateY(30px)';
+      (item as HTMLElement).style.transition = 'opacity 0.8s ease, transform 0.8s ease';
+    });
+    observer.observe(section);
+  });
+</script>

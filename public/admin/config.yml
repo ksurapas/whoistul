@@ -36,6 +36,13 @@ collections:
       - { label: "Description", name: "description", widget: "string" }
       - { label: "Image", name: "image", widget: "image", required: false }
       - { label: "Image Alt", name: "imageAlt", widget: "string", required: false }
+      - label: "Images"
+        name: "images"
+        widget: "list"
+        required: false
+        fields:
+          - { label: "Image", name: "src", widget: "image" }
+          - { label: "Alt Text", name: "alt", widget: "string", required: false }
       - { label: "Order", name: "order", widget: "number", required: false }
       - { label: "Body", name: "body", widget: "markdown" }
 

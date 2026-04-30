@@ -10,6 +10,16 @@ export function formatDate(date: Date): string {
 }
 
 /**
+ * Format a Date to "MMM YYYY" (e.g., "Jun 2025")
+ */
+export function formatMonthYear(date: Date): string {
+  return date.toLocaleDateString('en-GB', {
+    month: 'long',
+    year: 'numeric',
+  });
+}
+
+/**
  * Sort items by date descending (newest first)
  */
 export function sortByDateDesc<T extends { data: { date: Date } }>(items: T[]): T[] {

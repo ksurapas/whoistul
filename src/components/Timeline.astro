@@ -1,14 +1,14 @@
 ---
-import type { ImageMetadata } from 'astro';
 import Section from './Section.astro';
+import ImageCarousel from './ImageCarousel.astro';
 
 interface TimelineMilestone {
   title: string;
   subtitle?: string;
   date: string;
   description: string;
-  image?: ImageMetadata;
-  imageAlt?: string;
+  imageCount?: number;
+  id: string;
 }
 
 interface Props {
@@ -20,41 +20,30 @@ const { milestones } = Astro.props;
 
 <Section id="timeline">
   {milestones.length > 0 ? (
-    <div class="space-y-20">
+    <div class="space-y-24">
       {milestones.map((milestone, index) => {
         const imageOnRight = index % 2 === 0;
         return (
           <div class="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 items-center">
             {/* Text side */}
             <div class:list={[imageOnRight ? 'md:order-1' : 'md:order-2']}>
-              <time class="inline-block text-sm font-body text-text-muted mb-2 px-3 py-1 bg-bg-alt rounded-full">{milestone.date}</time>
-              <h3 class="text-2xl md:text-3xl font-bold font-display text-text leading-tight">{milestone.title}</h3>
+              <span class="inline-block text-sm font-body text-text-muted mb-3 px-3 py-1 bg-bg-alt rounded-full">
+                {milestone.date}
+              </span>
+              <h3 class="text-2xl md:text-3xl font-bold font-display text-text leading-tight">
+                {milestone.title}
+              </h3>
               {milestone.subtitle && (
                 <p class="text-lg font-medium text-accent mt-1">{milestone.subtitle}</p>
               )}
-              <p class="text-base font-body text-text-muted leading-relaxed mt-4">{milestone.description}</p>
+              <p class="text-base font-body text-text-muted leading-relaxed mt-4">
+                {milestone.description}
+              </p>
             </div>
 
-            {/* Image side */}
+            {/* Image carousel side */}
             <div class:list={[imageOnRight ? 'md:order-2' : 'md:order-1']}>
-              {milestone.image ? (
-                <div class="rounded-2xl overflow-hidden shadow-md">
-                  <img
-                    src={milestone.image.src}
-                    alt={milestone.imageAlt ?? milestone.title}
-                    width={milestone.image.width}
-                    height={milestone.image.height}
-                    loading="lazy"
-                    class="w-full h-64 md:h-80 object-cover"
-                  />
-                </div>
-              ) : (
-                <div class="rounded-2xl bg-bg-alt h-64 md:h-80 flex items-center justify-center shadow-sm">
-                  <svg class="w-12 h-12 text-text-muted/20" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M2.25 15.75l5.159-5.159a2.25 2.25 0 013.182 0l5.159 5.159m-1.5-1.5l1.409-1.41a2.25 2.25 0 013.182 0l2.909 2.91M3.75 21h16.5A2.25 2.25 0 0022.5 18.75V5.25A2.25 2.25 0 0020.25 3H3.75A2.25 2.25 0 001.5 5.25v13.5A2.25 2.25 0 003.75 21z" />
-                  </svg>
-                </div>
-              )}
+              <ImageCarousel id={milestone.id} placeholderCount={milestone.imageCount ?? 3} />
             </div>
           </div>
         );

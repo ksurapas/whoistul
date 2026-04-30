@@ -22,6 +22,10 @@ const journey = defineCollection({
     description: z.string(),
     image: image().optional(),
     imageAlt: z.string().optional(),
+    images: z.array(z.object({
+      src: image(),
+      alt: z.string().optional(),
+    })).optional(),
     order: z.number().optional(),
   }),
 });

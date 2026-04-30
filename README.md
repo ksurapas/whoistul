@@ -345,29 +345,141 @@ Regular paragraphs are just text separated by blank lines.
 
 Location: `src/content/journey/`
 
+Each file represents one milestone on your Journey timeline. The files are named with a number prefix to keep them in order (e.g., `01-sbs-rangsit.md`, `02-suankularb.md`).
+
+#### How the Journey page works
+
+- Each milestone shows **text on one side** and an **image carousel on the other side**
+- The layout **alternates**: first milestone has text left / images right, next has images left / text right, and so on
+- Dates display as **month and year only** (e.g., "August 2019")
+- The image carousel supports **multiple photos per milestone** — visitors can click arrows or swipe to browse
+
+#### Editing an existing milestone
+
+Open the file (e.g., `src/content/journey/03-chulalongkorn.md`) and edit the frontmatter or body text:
+
 ```markdown
 ---
-title: "Data Analyst at PwC Thailand"
-date: 2024-01-15
-description: "Joined PwC's consulting practice, working on data-driven projects."
-image: "./images/pwc.jpg"
-imageAlt: "PwC office"
-order: 2
+title: "Chulalongkorn University"
+subtitle: "Bachelor of Economics (EBA)"
+date: 2019-08-01
+description: "Four years studying Economics at Thailand's top university."
+order: 3
 ---
 
-Additional details about this milestone go here.
+Your longer description goes here. This text is not currently displayed
+on the timeline, but is stored for future use.
 ```
 
-**Frontmatter fields:**
+**Frontmatter fields explained:**
 
-| Field       | Required | Description                                    |
-|-------------|----------|------------------------------------------------|
-| title       | Yes      | Milestone title                                |
-| date        | Yes      | Date in `YYYY-MM-DD` format                    |
-| description | Yes      | Short description shown on the timeline        |
-| image       | No       | Path to an image                               |
-| imageAlt    | No       | Description of the image                       |
-| order       | No       | Number to control display order (lower = first)|
+| Field       | Required | What it does                                                    |
+|-------------|----------|-----------------------------------------------------------------|
+| title       | Yes      | The organization or school name (e.g., "PwC Thailand")          |
+| subtitle    | No       | Your role or degree (e.g., "Data Analyst")                      |
+| date        | Yes      | Date in `YYYY-MM-DD` format. Only the month and year are shown  |
+| description | Yes      | 1-2 sentences shown on the timeline card                        |
+| order       | No       | Number that controls the display order (1 = first, 2 = second)  |
+| image       | No       | Single image (legacy field, still works)                        |
+| imageAlt    | No       | Alt text for the single image                                   |
+| images      | No       | List of multiple images for the carousel (see below)            |
+
+#### Adding photos to a milestone (image carousel)
+
+**Step 1: Put your photos in the images folder**
+
+Create a folder called `images` inside `src/content/journey/` if it doesn't exist, then drop your photos there:
+
+```
+src/content/journey/
+├── images/
+│   ├── chula-campus.jpg
+│   ├── chula-friends.jpg
+│   ├── chula-graduation.jpg
+│   ├── pwc-office.jpg
+│   └── pwc-team.jpg
+├── 01-sbs-rangsit.md
+├── 02-suankularb.md
+├── 03-chulalongkorn.md
+└── ...
+```
+
+**Step 2: Reference the photos in the frontmatter**
+
+Add an `images` list to the milestone file. Each entry has a `src` (file path) and an optional `alt` (description):
+
+```markdown
+---
+title: "Chulalongkorn University"
+subtitle: "Bachelor of Economics (EBA)"
+date: 2019-08-01
+description: "Four years studying Economics at Thailand's top university."
+order: 3
+images:
+  - src: "./images/chula-campus.jpg"
+    alt: "Chulalongkorn University campus"
+  - src: "./images/chula-friends.jpg"
+    alt: "With friends at the faculty"
+  - src: "./images/chula-graduation.jpg"
+    alt: "Graduation day"
+---
+```
+
+- You can add as many images as you want — the carousel will show all of them
+- If you add **no images**, a placeholder will show (3 grey boxes)
+- The `alt` text is optional but recommended — it describes the image for accessibility
+- Image paths start with `./images/` because they're relative to the journey folder
+
+**Step 3: Commit and push**
+
+```bash
+git add .
+git commit -m "Add photos to Chula milestone"
+git push
+```
+
+The site rebuilds automatically. Your photos will appear in the carousel within 1-2 minutes.
+
+#### Adding a new milestone
+
+1. Create a new file in `src/content/journey/`. Name it with a number prefix to keep things organized:
+   ```
+   src/content/journey/09-new-company.md
+   ```
+
+2. Add the frontmatter and body text:
+   ```markdown
+   ---
+   title: "New Company"
+   subtitle: "Your Role"
+   date: 2027-01-01
+   description: "A short description of what you did here."
+   order: 9
+   ---
+
+   Longer description goes here.
+   ```
+
+3. Optionally add photos (see "Adding photos" above)
+
+4. Commit and push
+
+#### Removing a milestone
+
+Delete the file from `src/content/journey/` and push. The milestone will disappear from the timeline.
+
+#### Reordering milestones
+
+Change the `order` number in each file's frontmatter. Lower numbers appear first. For example:
+- `order: 1` → appears first (top of timeline)
+- `order: 8` → appears last (bottom of timeline)
+
+#### Photo tips
+
+- **File size**: Keep photos under 2MB each. Astro optimizes them during build, but smaller files = faster builds
+- **Dimensions**: Landscape orientation works best (the carousel area is wider than tall). Aim for at least 800px wide
+- **Formats**: JPG for photos, PNG for graphics, WebP for smaller file sizes
+- **Naming**: Use lowercase with hyphens: `pwc-team-photo.jpg` (not `PwC Team Photo.JPG`)
 
 ### Hobbies
 

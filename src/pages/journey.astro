@@ -2,22 +2,22 @@
 import { getCollection } from 'astro:content';
 import BaseLayout from '../components/BaseLayout.astro';
 import Timeline from '../components/Timeline.astro';
-import { formatDate } from '../lib/utils';
+import { formatMonthYear } from '../lib/utils';
 
-// Fetch journey milestones and sort chronologically (ascending by date)
+// Fetch journey milestones and sort by order field
 const journeyEntries = await getCollection('journey');
 const sortedMilestones = [...journeyEntries].sort(
-  (a, b) => a.data.date.getTime() - b.data.date.getTime()
+  (a, b) => (a.data.order ?? 99) - (b.data.order ?? 99)
 );
 
-// Map to timeline milestone format with pre-formatted dates
+// Map to timeline format with month/year dates
 const milestones = sortedMilestones.map((entry) => ({
   title: entry.data.title,
   subtitle: entry.data.subtitle,
-  date: formatDate(entry.data.date),
+  date: formatMonthYear(entry.data.date),
   description: entry.data.description,
-  image: entry.data.image,
-  imageAlt: entry.data.imageAlt,
+  imageCount: entry.data.images?.length ?? 3,
+  id: entry.slug,
 }));
 ---
 
