@@ -22,10 +22,11 @@ const allBlogPosts = await getCollection('blog', ({ data }) => !data.draft);
 const latestPosts = sortByDateDesc(allBlogPosts).slice(0, 3);
 
 // Map blog posts to featured card items
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 const featuredItems = latestPosts.map((post) => ({
   title: post.data.title,
   description: post.data.excerpt,
-  href: `/blog/${post.slug}`,
+  href: `${base}/blog/${post.slug}`,
 }));
 
 // Render now entry body

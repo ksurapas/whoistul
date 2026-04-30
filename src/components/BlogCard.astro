@@ -12,10 +12,11 @@ interface Props {
 }
 
 const { title, date, slug, excerpt, coverImage } = Astro.props;
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 ---
 
 <a
-  href={`/blog/${slug}`}
+  href={`${base}/blog/${slug}`}
   aria-label={title}
   class="blog-card block bg-card border border-border rounded-lg overflow-hidden transition-all duration-300 ease-in-out hover:scale-[1.02] hover:shadow-md"
 >

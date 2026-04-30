@@ -4,19 +4,20 @@ interface Props {
 }
 
 const { currentPage } = Astro.props;
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 
 const navLinks = [
-  { label: 'Home', href: '/', page: 'home' },
-  { label: 'Journey', href: '/journey', page: 'journey' },
-  { label: 'Blog', href: '/blog', page: 'blog' },
-  { label: 'Hobbies', href: '/hobbies', page: 'hobbies' },
-  { label: 'Contact', href: '/contact', page: 'contact' },
+  { label: 'Home', href: `${base}/`, page: 'home' },
+  { label: 'Journey', href: `${base}/journey`, page: 'journey' },
+  { label: 'Blog', href: `${base}/blog`, page: 'blog' },
+  { label: 'Hobbies', href: `${base}/hobbies`, page: 'hobbies' },
+  { label: 'Contact', href: `${base}/contact`, page: 'contact' },
 ];
 ---
 
 <nav class="w-full max-w-content mx-auto px-4 sm:px-6 lg:px-8 py-4 flex items-center justify-between" aria-label="Main navigation">
   <!-- Site brand / logo -->
-  <a href="/" class="text-xl font-semibold font-display text-text hover:text-accent transition-colors duration-300">
+  <a href={`${base}/`} class="text-xl font-semibold font-display text-text hover:text-accent transition-colors duration-300">
     whoistul
   </a>
 

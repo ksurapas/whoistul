@@ -1,5 +1,6 @@
 ---
 import BaseLayout from '../components/BaseLayout.astro';
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 ---
 
 <BaseLayout title="Page Not Found — whoistul" description="The page you're looking for doesn't exist.">
@@ -12,7 +13,7 @@ import BaseLayout from '../components/BaseLayout.astro';
       The page you're looking for doesn't exist or has been moved.
     </p>
     <a
-      href="/"
+      href={`${base}/`}
       class="mt-8 inline-block px-6 py-3 text-sm font-medium text-card bg-accent rounded-lg hover:bg-accent-hover transition-colors duration-300 min-h-[44px] min-w-[44px]"
     >
       Back to Home

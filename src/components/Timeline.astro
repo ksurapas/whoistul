@@ -5,6 +5,7 @@ import TimelineItem from './TimelineItem.astro';
 
 interface TimelineMilestone {
   title: string;
+  subtitle?: string;
   date: string;
   description: string;
   image?: ImageMetadata;
@@ -41,6 +42,7 @@ const { milestones } = Astro.props;
               <div class="bg-card rounded-lg p-6 shadow-sm border border-border">
                 <TimelineItem
                   title={milestone.title}
+                  subtitle={milestone.subtitle}
                   date={milestone.date}
                   description={milestone.description}
                   image={milestone.image}

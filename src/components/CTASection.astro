@@ -1,11 +1,12 @@
 ---
 import Section from './Section.astro';
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 ---
 
 <Section id="cta">
   <div class="text-center">
     <a
-      href="/journey"
+      href={`${base}/journey`}
       class="inline-block text-lg text-accent hover:text-accent-hover font-body transition-colors duration-300 min-h-[44px] min-w-[44px] leading-[44px]"
     >
       See where I've been &rarr;

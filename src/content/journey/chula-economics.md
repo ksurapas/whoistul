@@ -1,7 +1,8 @@
 ---
-title: "Economics at Chulalongkorn University"
+title: "Chulalongkorn University"
+subtitle: "Bachelor of Economics"
 date: 2020-05-15
-description: "Studied Economics at Chulalongkorn University, building a foundation in analytical thinking and quantitative reasoning."
+description: "Built a foundation in analytical thinking, econometrics, and quantitative reasoning over four years at Thailand's top university."
 imageAlt: "Chulalongkorn University campus"
 order: 1
 ---

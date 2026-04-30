@@ -2,6 +2,8 @@ backend:
   name: github
   repo: ksurapas/whoistul
   branch: main
+  auth_type: pkce
+  app_id: "Ov23liZIZeAm6DOQnqhJ"  # Replace with your GitHub OAuth App Client ID
 
 media_folder: "src/content/blog/images"
 public_folder: "./images"
@@ -29,6 +31,7 @@ collections:
     slug: "{{slug}}"
     fields:
       - { label: "Title", name: "title", widget: "string" }
+      - { label: "Subtitle", name: "subtitle", widget: "string", required: false }
       - { label: "Date", name: "date", widget: "datetime" }
       - { label: "Description", name: "description", widget: "string" }
       - { label: "Image", name: "image", widget: "image", required: false }

@@ -1,5 +1,6 @@
 ---
-title: "Data Analyst at PwC Thailand"
+title: "PwC Thailand"
+subtitle: "Data Analyst"
 date: 2024-01-15
 description: "Joined PwC's consulting practice, working on data-driven projects for enterprise clients across Southeast Asia."
 imageAlt: "PwC office"

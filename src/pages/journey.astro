@@ -13,6 +13,7 @@ const sortedMilestones = [...journeyEntries].sort(
 // Map to timeline milestone format with pre-formatted dates
 const milestones = sortedMilestones.map((entry) => ({
   title: entry.data.title,
+  subtitle: entry.data.subtitle,
   date: formatDate(entry.data.date),
   description: entry.data.description,
   image: entry.data.image,

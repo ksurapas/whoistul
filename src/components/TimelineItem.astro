@@ -4,17 +4,19 @@ import OptimizedImage from './OptimizedImage.astro';
 
 interface Props {
   title: string;
+  subtitle?: string;
   date: string;
   description: string;
   image?: ImageMetadata;
   imageAlt?: string;
 }
 
-const { title, date, description, image, imageAlt } = Astro.props;
+const { title, subtitle, date, description, image, imageAlt } = Astro.props;
 ---
 
 <div class="timeline-item">
-  {image && (
+  <!-- Photo -->
+  {image ? (
     <div class="mb-4 rounded-lg overflow-hidden">
       <OptimizedImage
         src={image}
@@ -22,8 +24,21 @@ const { title, date, description, image, imageAlt } = Astro.props;
         class="w-full rounded-lg"
       />
     </div>
+  ) : (
+    <div class="mb-4 rounded-lg bg-bg-alt h-40 flex items-center justify-center">
+      <svg class="w-10 h-10 text-text-muted/30" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M2.25 15.75l5.159-5.159a2.25 2.25 0 013.182 0l5.159 5.159m-1.5-1.5l1.409-1.41a2.25 2.25 0 013.182 0l2.909 2.91M3.75 21h16.5A2.25 2.25 0 0022.5 18.75V5.25A2.25 2.25 0 0020.25 3H3.75A2.25 2.25 0 001.5 5.25v13.5A2.25 2.25 0 003.75 21z" />
+      </svg>
+    </div>
   )}
+
   <time class="block text-sm font-body text-text-muted mb-1">{date}</time>
-  <h3 class="text-xl font-semibold font-display text-text mb-2">{title}</h3>
-  <p class="text-base font-body text-text-muted leading-relaxed">{description}</p>
+
+  <!-- Two-line header: org name + role -->
+  <h3 class="text-xl font-semibold font-display text-text leading-tight">{title}</h3>
+  {subtitle && (
+    <p class="text-base font-medium text-accent mb-2">{subtitle}</p>
+  )}
+
+  <p class="text-base font-body text-text-muted leading-relaxed mt-2">{description}</p>
 </div>
