@@ -7,48 +7,51 @@ const sports = [
   {
     name: 'Badminton',
     level: 'Intermediate',
-    years: '8 years',
-    frequency: '3x per week',
-    gear: [
-      { name: 'Yonex Astrox 88D Pro', type: 'Racket', note: 'Perfect power and control' },
-      { name: 'Yonex Power Cushion 65Z', type: 'Shoes', note: 'Great court grip and cushioning' },
-      { name: 'Yonex BG80', type: 'Strings', note: 'Excellent repulsion and durability' },
-    ],
-  },
-  {
-    name: 'Swimming',
-    level: 'Advanced',
     years: '7 years',
     frequency: '2x per week',
     gear: [
-      { name: 'Arena Cobra Ultra', type: 'Goggles', note: 'Low profile, great visibility' },
-      { name: 'Speedo Fastskin', type: 'Jammers', note: 'Compression fit for training' },
+      { name: 'Yonex Astrox 88D Pro', type: 'Racket', note: 'Head-heavy for powerful smashes with stiff shaft for precision' },
+      { name: 'Yonex Arcsaber 11 Pro', type: 'Racket', note: 'Even balance for all-round play with excellent control' },
+      { name: 'Yonex Arcsaber 7 Pro', type: 'Racket', note: 'Medium flex for smooth repulsion and consistent rallies' },
+      { name: 'Asics Gel Rocket 11', type: 'Shoes', note: 'GEL cushioning with non-marking gum rubber outsole for court grip' },
+      { name: 'Yonex BG80', type: 'Strings', note: 'High repulsion power strings with sharp hitting sound' },
+      { name: 'Yonex Aerobite', type: 'Strings', note: 'Hybrid string for spin and control on net shots' },
     ],
   },
   {
-    name: 'Running',
+    name: 'Airsoft',
+    level: 'Experienced',
+    years: '9 years',
+    frequency: 'Once in a while',
+    gear: [
+      { name: 'G36C', type: 'AEG', note: 'Compact assault rifle, great for CQB with folding stock' },
+      { name: 'Scar-L', type: 'AEG', note: 'Versatile platform with solid range and accuracy' },
+      { name: 'HK416', type: 'AEG', note: 'Reliable workhorse with excellent aftermarket support' },
+      { name: 'Taran Tactical Pit Viper', type: 'GBB Pistol', note: 'Competition-style pistol with flared magwell and fiber optic sights' },
+      { name: 'Glock 26', type: 'GBB Pistol', note: 'Compact sidearm, easy to conceal for backup' },
+    ],
+  },
+  {
+    name: 'Scuba Diving',
     level: 'Intermediate',
-    years: '4 years',
-    frequency: '2x per week',
+    years: '2 years',
+    frequency: '1x per quarter',
     gear: [
-      { name: 'Nike Vaporfly 3', type: 'Shoes', note: 'Race day carbon plate' },
-      { name: 'Garmin Forerunner 265', type: 'Watch', note: 'Training metrics and GPS' },
+      { name: 'Garmin Fenix 8', type: 'Dive Computer', note: 'Multi-sport watch with dive mode, depth tracking, and decompression alerts' },
+      { name: 'Gull Mew', type: 'Fins', note: 'Lightweight open-heel fins with flexible blade for efficient kicks' },
+      { name: 'Gull Lanze', type: 'Mask', note: 'Low-volume mask with wide field of view and soft silicone skirt' },
     ],
   },
   {
-    name: 'Gym',
-    level: 'Regular',
-    years: '5 years',
-    frequency: '3x per week',
-    gear: [
-      { name: 'Nike Metcon 9', type: 'Shoes', note: 'Stable for lifting' },
-      { name: 'Versa Gripps', type: 'Straps', note: 'Better grip on pulls' },
-    ],
+    name: 'Bouldering',
+    level: 'Beginner',
+    years: '1 year',
+    frequency: '1x per month',
+    gear: [],
   },
 ];
 
 const totalYears = sports.reduce((sum, s) => sum + parseInt(s.years), 0);
-const totalWeekly = sports.reduce((sum, s) => sum + parseInt(s.frequency), 0);
 const totalGear = sports.reduce((sum, s) => sum + s.gear.length, 0);
 ---
 
@@ -79,7 +82,6 @@ const totalGear = sports.reduce((sum, s) => sum + s.gear.length, 0);
             type="button"
             aria-expanded="false"
           >
-            {/* Placeholder image area */}
             <div class="absolute inset-0 bg-bg-alt flex items-center justify-center">
               <svg class="w-16 h-16 text-text-muted/10" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M2.25 15.75l5.159-5.159a2.25 2.25 0 013.182 0l5.159 5.159m-1.5-1.5l1.409-1.41a2.25 2.25 0 013.182 0l2.909 2.91M3.75 21h16.5A2.25 2.25 0 0022.5 18.75V5.25A2.25 2.25 0 0020.25 3H3.75A2.25 2.25 0 001.5 5.25v13.5A2.25 2.25 0 003.75 21z" /></svg>
             </div>
@@ -101,29 +103,33 @@ const totalGear = sports.reduce((sum, s) => sum + s.gear.length, 0);
               </span>
             </div>
             {/* Expand icon */}
-            <div class="absolute top-5 right-5 w-8 h-8 rounded-full bg-bg/50 border border-border flex items-center justify-center">
-              <svg class="w-4 h-4 text-text-muted sport-chevron transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" /></svg>
-            </div>
+            {sport.gear.length > 0 && (
+              <div class="absolute top-5 right-5 w-8 h-8 rounded-full bg-bg/50 border border-border flex items-center justify-center">
+                <svg class="w-4 h-4 text-text-muted sport-chevron transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" /></svg>
+              </div>
+            )}
           </button>
 
           {/* Gear panel (hidden by default) */}
-          <div class="sport-gear hidden mt-3 rounded-2xl border border-border bg-card p-5">
-            <h4 class="text-sm font-semibold text-text mb-4">My Gear</h4>
-            <div class="space-y-3">
-              {sport.gear.map((item) => (
-                <div class="flex items-start gap-3">
-                  <div class="w-2 h-2 rounded-full bg-accent mt-1.5 flex-shrink-0"></div>
-                  <div>
-                    <div class="flex items-center gap-2 flex-wrap">
-                      <span class="text-sm font-semibold text-text">{item.name}</span>
-                      <span class="text-[10px] font-medium text-text-muted bg-bg-alt px-2 py-0.5 rounded">{item.type}</span>
+          {sport.gear.length > 0 && (
+            <div class="sport-gear hidden mt-3 rounded-2xl border border-border bg-card p-5">
+              <h4 class="text-sm font-semibold text-text mb-4">My Gear</h4>
+              <div class="space-y-3">
+                {sport.gear.map((item) => (
+                  <div class="flex items-start gap-3">
+                    <div class="w-2 h-2 rounded-full bg-accent mt-1.5 flex-shrink-0"></div>
+                    <div>
+                      <div class="flex items-center gap-2 flex-wrap">
+                        <span class="text-sm font-semibold text-text">{item.name}</span>
+                        <span class="text-[10px] font-medium text-text-muted bg-bg-alt px-2 py-0.5 rounded">{item.type}</span>
+                      </div>
+                      <p class="text-xs text-text-muted mt-0.5">{item.note}</p>
                     </div>
-                    <p class="text-xs text-text-muted mt-0.5">{item.note}</p>
                   </div>
-                </div>
-              ))}
+                ))}
+              </div>
             </div>
-          </div>
+          )}
         </div>
       ))}
     </div>
@@ -133,7 +139,7 @@ const totalGear = sports.reduce((sum, s) => sum + s.gear.length, 0);
       {[
         { value: sports.length, label: 'Active Sports', color: 'text-accent' },
         { value: totalYears, label: 'Years Combined', color: 'text-accent' },
-        { value: `${totalWeekly}x`, label: 'Weekly Sessions', color: 'text-accent' },
+        { value: '6x', label: 'Monthly Sessions', color: 'text-accent' },
         { value: totalGear, label: 'Favorite Gear', color: 'text-accent' },
       ].map((stat) => (
         <div class="rounded-xl border border-border bg-card p-5 text-center">
@@ -151,25 +157,28 @@ const totalGear = sports.reduce((sum, s) => sum + s.gear.length, 0);
     const gearPanel = card.querySelector('.sport-gear');
     const chevron = card.querySelector('.sport-chevron');
 
+    if (!gearPanel) return;
+
     toggle?.addEventListener('click', () => {
-      const isOpen = !gearPanel?.classList.contains('hidden');
+      const isOpen = !gearPanel.classList.contains('hidden');
 
       document.querySelectorAll('.sport-card').forEach((other) => {
         if (other !== card) {
           other.querySelector('.sport-gear')?.classList.add('hidden');
           other.querySelector('.sport-toggle')?.setAttribute('aria-expanded', 'false');
-          (other.querySelector('.sport-chevron') as HTMLElement)?.style.setProperty('transform', 'rotate(0deg)');
+          const otherChevron = other.querySelector('.sport-chevron') as HTMLElement;
+          if (otherChevron) otherChevron.style.transform = 'rotate(0deg)';
         }
       });
 
       if (isOpen) {
-        gearPanel?.classList.add('hidden');
+        gearPanel.classList.add('hidden');
         toggle.setAttribute('aria-expanded', 'false');
-        (chevron as HTMLElement)?.style.setProperty('transform', 'rotate(0deg)');
+        if (chevron) (chevron as HTMLElement).style.transform = 'rotate(0deg)';
       } else {
-        gearPanel?.classList.remove('hidden');
+        gearPanel.classList.remove('hidden');
         toggle.setAttribute('aria-expanded', 'true');
-        (chevron as HTMLElement)?.style.setProperty('transform', 'rotate(180deg)');
+        if (chevron) (chevron as HTMLElement).style.transform = 'rotate(180deg)';
       }
     });
   });
