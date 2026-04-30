@@ -1,0 +1,61 @@
+backend:
+  name: github
+  repo: whoistul/whoistul-website
+  branch: main
+
+media_folder: "src/content/blog/images"
+public_folder: "./images"
+
+collections:
+  - name: "blog"
+    label: "Blog Posts"
+    folder: "src/content/blog"
+    create: true
+    slug: "{{slug}}"
+    fields:
+      - { label: "Title", name: "title", widget: "string" }
+      - { label: "Date", name: "date", widget: "datetime" }
+      - { label: "Excerpt", name: "excerpt", widget: "string", required: false }
+      - { label: "Cover Image", name: "coverImage", widget: "image", required: false }
+      - { label: "Cover Image Alt", name: "coverImageAlt", widget: "string", required: false }
+      - { label: "Tags", name: "tags", widget: "list", required: false }
+      - { label: "Draft", name: "draft", widget: "boolean", default: false }
+      - { label: "Body", name: "body", widget: "markdown" }
+
+  - name: "journey"
+    label: "Journey Milestones"
+    folder: "src/content/journey"
+    create: true
+    slug: "{{slug}}"
+    fields:
+      - { label: "Title", name: "title", widget: "string" }
+      - { label: "Date", name: "date", widget: "datetime" }
+      - { label: "Description", name: "description", widget: "string" }
+      - { label: "Image", name: "image", widget: "image", required: false }
+      - { label: "Image Alt", name: "imageAlt", widget: "string", required: false }
+      - { label: "Order", name: "order", widget: "number", required: false }
+      - { label: "Body", name: "body", widget: "markdown" }
+
+  - name: "hobbies"
+    label: "Hobbies"
+    folder: "src/content/hobbies"
+    create: true
+    slug: "{{slug}}"
+    fields:
+      - { label: "Title", name: "title", widget: "string" }
+      - { label: "Category", name: "category", widget: "select", options: ["photography", "travel", "sports", "motorsport"] }
+      - { label: "Description", name: "description", widget: "string", required: false }
+      - { label: "Image", name: "image", widget: "image", required: false }
+      - { label: "Image Alt", name: "imageAlt", widget: "string", required: false }
+      - { label: "Order", name: "order", widget: "number", required: false }
+      - { label: "Body", name: "body", widget: "markdown" }
+
+  - name: "now"
+    label: "Now"
+    files:
+      - label: "Current"
+        name: "current"
+        file: "src/content/now/current.md"
+        fields:
+          - { label: "Last Updated", name: "lastUpdated", widget: "datetime" }
+          - { label: "Body", name: "body", widget: "markdown" }

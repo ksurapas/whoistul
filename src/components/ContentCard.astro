@@ -1,0 +1,47 @@
+---
+import { Image } from 'astro:assets';
+import type { ImageMetadata } from 'astro';
+
+interface Props {
+  title: string;
+  description?: string;
+  image?: ImageMetadata;
+  imageAlt?: string;
+  href?: string;
+}
+
+const { title, description, image, imageAlt = '', href } = Astro.props;
+
+const Tag = href ? 'a' : 'div';
+const linkProps = href ? { href, 'aria-label': title } : {};
+---
+
+<Tag
+  {...linkProps}
+  class:list={[
+    'content-card block bg-card border border-border rounded-lg overflow-hidden',
+    'min-h-[44px] min-w-[44px]',
+    'transition-all duration-300 ease-in-out',
+    'hover:scale-[1.02] hover:opacity-90',
+    href && 'cursor-pointer',
+  ]}
+>
+  {image && (
+    <div class="aspect-video overflow-hidden bg-bg-alt">
+      <Image
+        src={image}
+        alt={imageAlt}
+        width={image.width}
+        height={image.height}
+        loading="lazy"
+        class="w-full h-full object-cover"
+      />
+    </div>
+  )}
+  <div class="p-4 sm:p-6">
+    <h3 class="text-lg font-semibold text-text font-display">{title}</h3>
+    {description && (
+      <p class="mt-2 text-sm text-text-muted font-body leading-relaxed">{description}</p>
+    )}
+  </div>
+</Tag>

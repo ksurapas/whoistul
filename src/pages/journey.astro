@@ -1,0 +1,36 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../components/BaseLayout.astro';
+import Timeline from '../components/Timeline.astro';
+import { formatDate } from '../lib/utils';
+
+// Fetch journey milestones and sort chronologically (ascending by date)
+const journeyEntries = await getCollection('journey');
+const sortedMilestones = [...journeyEntries].sort(
+  (a, b) => a.data.date.getTime() - b.data.date.getTime()
+);
+
+// Map to timeline milestone format with pre-formatted dates
+const milestones = sortedMilestones.map((entry) => ({
+  title: entry.data.title,
+  date: formatDate(entry.data.date),
+  description: entry.data.description,
+  image: entry.data.image,
+  imageAlt: entry.data.imageAlt,
+}));
+---
+
+<BaseLayout
+  title="Journey — Tul"
+  description="Tul's career timeline and personal milestones."
+  currentPage="journey"
+>
+  <h1 class="text-3xl md:text-4xl font-bold font-display text-text text-center pt-12 mb-4">
+    Journey
+  </h1>
+  <p class="text-center text-text-muted font-body mb-8 max-w-2xl mx-auto">
+    A timeline of milestones, experiences, and the path that brought me here.
+  </p>
+
+  <Timeline milestones={milestones} />
+</BaseLayout>

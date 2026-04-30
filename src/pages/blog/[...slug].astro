@@ -1,0 +1,152 @@
+---
+import { getCollection } from 'astro:content';
+import { Image } from 'astro:assets';
+import BaseLayout from '../../components/BaseLayout.astro';
+import { formatDate } from '../../lib/utils';
+
+export async function getStaticPaths() {
+  const posts = await getCollection('blog', ({ data }) => data.draft !== true);
+  return posts.map((post) => ({
+    params: { slug: post.slug },
+    props: { post },
+  }));
+}
+
+const { post } = Astro.props;
+const { Content } = await post.render();
+const { title, date, coverImage, coverImageAlt, excerpt } = post.data;
+---
+
+<BaseLayout
+  title={`${title} — Tul`}
+  description={excerpt || title}
+  currentPage="blog"
+>
+  <article class="pt-12 pb-16 max-w-prose mx-auto">
+    <!-- Post header -->
+    <header class="mb-8">
+      <time datetime={date.toISOString()} class="text-sm text-text-muted font-body">
+        {formatDate(date)}
+      </time>
+      <h1 class="mt-2 text-3xl md:text-4xl font-bold font-display text-text leading-tight">
+        {title}
+      </h1>
+    </header>
+
+    <!-- Optional cover image -->
+    {coverImage && (
+      <div class="mb-8 rounded-lg overflow-hidden bg-bg-alt">
+        <Image
+          src={coverImage}
+          alt={coverImageAlt || ''}
+          width={coverImage.width}
+          height={coverImage.height}
+          loading="eager"
+          class="w-full h-auto"
+        />
+      </div>
+    )}
+
+    <!-- Rendered Markdown content with prose styling -->
+    <div class="prose-content">
+      <Content />
+    </div>
+
+    <!-- Back to blog link -->
+    <div class="mt-12 pt-8 border-t border-border">
+      <a
+        href="/blog"
+        class="text-accent hover:text-accent-hover transition-colors duration-200 font-body"
+      >
+        ← Back to blog
+      </a>
+    </div>
+  </article>
+</BaseLayout>
+
+<style>
+  /* Custom prose styles for rendered Markdown content */
+  .prose-content {
+    @apply text-text font-body leading-relaxed;
+  }
+
+  .prose-content :global(h1) {
+    @apply text-3xl font-bold font-display mt-10 mb-4 text-text;
+  }
+
+  .prose-content :global(h2) {
+    @apply text-2xl font-semibold font-display mt-8 mb-3 text-text;
+  }
+
+  .prose-content :global(h3) {
+    @apply text-xl font-semibold font-display mt-6 mb-2 text-text;
+  }
+
+  .prose-content :global(h4) {
+    @apply text-lg font-semibold font-display mt-4 mb-2 text-text;
+  }
+
+  .prose-content :global(p) {
+    @apply mb-4 text-base leading-relaxed;
+  }
+
+  .prose-content :global(a) {
+    @apply text-accent underline underline-offset-2 hover:text-accent-hover transition-colors duration-200;
+  }
+
+  .prose-content :global(strong) {
+    @apply font-semibold text-text;
+  }
+
+  .prose-content :global(em) {
+    @apply italic;
+  }
+
+  .prose-content :global(ul) {
+    @apply list-disc pl-6 mb-4 space-y-1;
+  }
+
+  .prose-content :global(ol) {
+    @apply list-decimal pl-6 mb-4 space-y-1;
+  }
+
+  .prose-content :global(li) {
+    @apply text-base leading-relaxed;
+  }
+
+  .prose-content :global(blockquote) {
+    @apply border-l-4 border-accent pl-4 my-4 italic text-text-muted;
+  }
+
+  .prose-content :global(code) {
+    @apply bg-bg-alt text-sm px-1.5 py-0.5 rounded font-mono;
+  }
+
+  .prose-content :global(pre) {
+    @apply bg-bg-alt rounded-lg p-4 overflow-x-auto mb-4;
+  }
+
+  .prose-content :global(pre code) {
+    @apply bg-transparent p-0 text-sm;
+  }
+
+  .prose-content :global(img) {
+    @apply rounded-lg my-6 max-w-full h-auto;
+  }
+
+  .prose-content :global(hr) {
+    @apply border-border my-8;
+  }
+
+  .prose-content :global(table) {
+    @apply w-full border-collapse mb-4;
+  }
+
+  .prose-content :global(th) {
+    @apply border border-border bg-bg-alt px-4 py-2 text-left font-semibold;
+  }
+
+  .prose-content :global(td) {
+    @apply border border-border px-4 py-2;
+  }
+</style>

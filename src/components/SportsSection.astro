@@ -1,0 +1,40 @@
+---
+interface Props {
+  title: string;
+  description?: string;
+}
+
+const { title, description } = Astro.props;
+---
+
+<section id="sports" class="py-16 scroll-mt-16">
+  <div class="max-w-content mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-start">
+      <!-- Text content -->
+      <div>
+        <h2 class="text-2xl md:text-3xl font-bold font-display text-text mb-3">
+          {title}
+        </h2>
+        {description && (
+          <p class="text-text-muted font-body text-lg mb-6 max-w-2xl">
+            {description}
+          </p>
+        )}
+
+        <div class="prose prose-neutral max-w-none text-text-muted leading-relaxed">
+          <slot />
+        </div>
+      </div>
+
+      <!-- Image placeholder -->
+      <div class="rounded-lg bg-bg-alt h-64 md:h-80 flex items-center justify-center text-text-muted transition-opacity duration-300 hover:opacity-80">
+        <span class="flex flex-col items-center gap-2">
+          <svg class="w-10 h-10 opacity-40" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M2.25 15.75l5.159-5.159a2.25 2.25 0 013.182 0l5.159 5.159m-1.5-1.5l1.409-1.41a2.25 2.25 0 013.182 0l2.909 2.91M3.75 21h16.5A2.25 2.25 0 0022.5 18.75V5.25A2.25 2.25 0 0020.25 3H3.75A2.25 2.25 0 001.5 5.25v13.5A2.25 2.25 0 003.75 21z" />
+          </svg>
+          <span class="text-xs opacity-60">Sports image</span>
+        </span>
+      </div>
+    </div>
+  </div>
+</section>

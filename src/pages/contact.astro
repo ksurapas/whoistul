@@ -1,0 +1,52 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../components/BaseLayout.astro';
+import ContactCard from '../components/ContactCard.astro';
+
+// Fetch contact page content for intro text
+const pagesEntries = await getCollection('pages');
+const contactPage = pagesEntries.find((p) => p.slug === 'contact');
+const contactContent = contactPage ? await contactPage.render() : null;
+
+// Hardcoded contact methods
+const contactMethods = [
+  {
+    label: 'tul@example.com',
+    href: 'mailto:tul@example.com',
+    icon: 'email',
+  },
+  {
+    label: 'LinkedIn',
+    href: 'https://www.linkedin.com/in/tul',
+    icon: 'linkedin',
+  },
+];
+---
+
+<BaseLayout
+  title="Contact — Tul"
+  description={contactPage?.data.description ?? 'Get in touch with Tul.'}
+  currentPage="contact"
+>
+  <div class="max-w-2xl mx-auto py-12">
+    <h1 class="text-3xl md:text-4xl font-bold font-display text-text text-center mb-4">
+      {contactPage?.data.title ?? 'Contact'}
+    </h1>
+
+    {contactContent && (
+      <div class="text-center text-text-muted font-body mb-10 max-w-xl mx-auto leading-relaxed prose prose-sm">
+        <contactContent.Content />
+      </div>
+    )}
+
+    <div class="flex flex-col gap-4">
+      {contactMethods.map((method) => (
+        <ContactCard
+          label={method.label}
+          href={method.href}
+          icon={method.icon}
+        />
+      ))}
+    </div>
+  </div>
+</BaseLayout>

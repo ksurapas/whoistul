@@ -1,0 +1,17 @@
+---
+import Section from './Section.astro';
+
+interface Props {
+  content: string;
+}
+
+const { content } = Astro.props;
+---
+
+<Section id="intro">
+  <div class="text-center max-w-2xl mx-auto">
+    <p class="text-lg md:text-xl text-text-muted font-body leading-relaxed">
+      {content}
+    </p>
+  </div>
+</Section>

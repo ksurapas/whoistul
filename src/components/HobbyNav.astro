@@ -1,0 +1,28 @@
+---
+const sections = [
+  { label: 'Photography', href: '#photography' },
+  { label: 'Travel', href: '#travel' },
+  { label: 'Sports', href: '#sports' },
+  { label: 'Motorsport', href: '#motorsport' },
+];
+---
+
+<nav
+  class="sticky top-0 z-40 bg-bg/90 backdrop-blur-sm border-b border-border"
+  aria-label="Hobby sections"
+>
+  <div class="max-w-content mx-auto px-4 sm:px-6 lg:px-8">
+    <ul class="flex items-center gap-2 sm:gap-6 overflow-x-auto py-3 -mx-4 px-4 sm:mx-0 sm:px-0">
+      {sections.map((section) => (
+        <li class="flex-shrink-0">
+          <a
+            href={section.href}
+            class="inline-block px-3 py-2 text-sm font-medium text-text-muted rounded-md transition-colors duration-300 hover:text-accent hover:bg-bg-alt whitespace-nowrap min-w-[44px] min-h-[44px] flex items-center justify-center"
+          >
+            {section.label}
+          </a>
+        </li>
+      ))}
+    </ul>
+  </div>
+</nav>

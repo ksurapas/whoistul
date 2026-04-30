@@ -1,0 +1,46 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../components/BaseLayout.astro';
+import { formatDate } from '../lib/utils';
+
+// Fetch the now collection entry
+const nowEntries = await getCollection('now');
+const currentEntry = nowEntries[0];
+
+let NowContent = null;
+let lastUpdated: Date | null = null;
+
+if (currentEntry) {
+  const rendered = await currentEntry.render();
+  NowContent = rendered.Content;
+  lastUpdated = currentEntry.data.lastUpdated;
+}
+---
+
+<BaseLayout
+  title="Now — Tul"
+  description="What Tul is currently working on, reading, and exploring."
+  currentPage="now"
+>
+  <div class="max-w-2xl mx-auto py-12">
+    <h1 class="text-3xl md:text-4xl font-bold font-display text-text text-center mb-4">
+      Now
+    </h1>
+
+    {lastUpdated && (
+      <p class="text-center text-text-muted text-sm font-body mb-10">
+        Last updated {formatDate(lastUpdated)}
+      </p>
+    )}
+
+    {NowContent ? (
+      <div class="prose prose-lg max-w-none text-text-muted font-body leading-relaxed">
+        <NowContent />
+      </div>
+    ) : (
+      <p class="text-center text-text-muted font-body">
+        Nothing here yet. Check back soon.
+      </p>
+    )}
+  </div>
+</BaseLayout>

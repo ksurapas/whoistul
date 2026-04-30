@@ -1,0 +1,41 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../components/BaseLayout.astro';
+import BlogCard from '../../components/BlogCard.astro';
+import { sortByDateDesc } from '../../lib/utils';
+
+// Fetch blog posts, filter out drafts, sort newest first
+const allPosts = await getCollection('blog', ({ data }) => data.draft !== true);
+const sortedPosts = sortByDateDesc(allPosts);
+---
+
+<BaseLayout
+  title="Blog — Tul"
+  description="Thoughts on data, consulting, systems thinking, and life."
+  currentPage="blog"
+>
+  <h1 class="text-3xl md:text-4xl font-bold font-display text-text text-center pt-12 mb-4">
+    Blog
+  </h1>
+  <p class="text-center text-text-muted font-body mb-12 max-w-2xl mx-auto">
+    Thoughts on data, consulting, systems thinking, and life.
+  </p>
+
+  {sortedPosts.length > 0 ? (
+    <div class="grid gap-8 sm:grid-cols-2 lg:grid-cols-3 pb-16">
+      {sortedPosts.map((post) => (
+        <BlogCard
+          title={post.data.title}
+          date={post.data.date}
+          slug={post.slug}
+          excerpt={post.data.excerpt}
+          coverImage={post.data.coverImage}
+        />
+      ))}
+    </div>
+  ) : (
+    <p class="text-center text-text-muted font-body py-16">
+      No posts yet. Check back soon.
+    </p>
+  )}
+</BaseLayout>

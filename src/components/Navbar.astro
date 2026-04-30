@@ -1,0 +1,152 @@
+---
+interface Props {
+  currentPage?: string; // "home" | "journey" | "blog" | "hobbies" | "contact" | "now"
+}
+
+const { currentPage } = Astro.props;
+
+const navLinks = [
+  { label: 'Home', href: '/', page: 'home' },
+  { label: 'Journey', href: '/journey', page: 'journey' },
+  { label: 'Blog', href: '/blog', page: 'blog' },
+  { label: 'Hobbies', href: '/hobbies', page: 'hobbies' },
+  { label: 'Contact', href: '/contact', page: 'contact' },
+];
+---
+
+<nav class="w-full max-w-content mx-auto px-4 sm:px-6 lg:px-8 py-4 flex items-center justify-between" aria-label="Main navigation">
+  <!-- Site brand / logo -->
+  <a href="/" class="text-xl font-semibold font-display text-text hover:text-accent transition-colors duration-300">
+    whoistul
+  </a>
+
+  <!-- Desktop navigation links (hidden below 768px) -->
+  <ul class="hidden md:flex items-center gap-8">
+    {navLinks.map((link) => {
+      const isActive = currentPage === link.page;
+      return (
+        <li>
+          <a
+            href={link.href}
+            class:list={[
+              'relative py-2 text-sm font-medium transition-colors duration-300',
+              isActive
+                ? 'text-accent after:absolute after:bottom-0 after:left-0 after:w-full after:h-0.5 after:bg-accent'
+                : 'text-text-muted hover:text-accent',
+            ]}
+            aria-current={isActive ? 'page' : undefined}
+          >
+            {link.label}
+          </a>
+        </li>
+      );
+    })}
+  </ul>
+
+  <!-- Mobile hamburger button (visible below 768px) -->
+  <button
+    id="mobile-menu-toggle"
+    class="md:hidden flex items-center justify-center w-11 h-11 text-text hover:text-accent transition-colors duration-300"
+    aria-label="Open navigation menu"
+    aria-expanded="false"
+    aria-controls="mobile-menu"
+    type="button"
+  >
+    <!-- Hamburger icon -->
+    <svg id="hamburger-icon" class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+    </svg>
+    <!-- Close icon (hidden by default) -->
+    <svg id="close-icon" class="w-6 h-6 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+    </svg>
+  </button>
+
+  <!-- Mobile menu overlay (hidden by default) -->
+  <div
+    id="mobile-menu"
+    class="fixed inset-0 z-50 bg-bg/95 backdrop-blur-sm flex flex-col items-center justify-center hidden"
+    role="dialog"
+    aria-modal="true"
+    aria-label="Navigation menu"
+  >
+    <!-- Close button inside overlay -->
+    <button
+      id="mobile-menu-close"
+      class="absolute top-4 right-4 w-11 h-11 flex items-center justify-center text-text hover:text-accent transition-colors duration-300"
+      aria-label="Close navigation menu"
+      type="button"
+    >
+      <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+      </svg>
+    </button>
+
+    <ul class="flex flex-col items-center gap-8">
+      {navLinks.map((link) => {
+        const isActive = currentPage === link.page;
+        return (
+          <li>
+            <a
+              href={link.href}
+              class:list={[
+                'text-2xl font-medium transition-colors duration-300',
+                isActive ? 'text-accent' : 'text-text hover:text-accent',
+              ]}
+              aria-current={isActive ? 'page' : undefined}
+            >
+              {link.label}
+            </a>
+          </li>
+        );
+      })}
+    </ul>
+  </div>
+</nav>
+
+<script>
+  const toggle = document.getElementById('mobile-menu-toggle');
+  const menu = document.getElementById('mobile-menu');
+  const closeBtn = document.getElementById('mobile-menu-close');
+  const hamburgerIcon = document.getElementById('hamburger-icon');
+  const closeIcon = document.getElementById('close-icon');
+
+  function openMenu() {
+    menu?.classList.remove('hidden');
+    hamburgerIcon?.classList.add('hidden');
+    closeIcon?.classList.remove('hidden');
+    toggle?.setAttribute('aria-expanded', 'true');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeMenu() {
+    menu?.classList.add('hidden');
+    hamburgerIcon?.classList.remove('hidden');
+    closeIcon?.classList.add('hidden');
+    toggle?.setAttribute('aria-expanded', 'false');
+    document.body.style.overflow = '';
+  }
+
+  toggle?.addEventListener('click', () => {
+    const isOpen = toggle.getAttribute('aria-expanded') === 'true';
+    if (isOpen) {
+      closeMenu();
+    } else {
+      openMenu();
+    }
+  });
+
+  closeBtn?.addEventListener('click', closeMenu);
+
+  // Close menu when a link is clicked
+  menu?.querySelectorAll('a').forEach((link) => {
+    link.addEventListener('click', closeMenu);
+  });
+
+  // Close menu on Escape key
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && !menu?.classList.contains('hidden')) {
+      closeMenu();
+    }
+  });
+</script>

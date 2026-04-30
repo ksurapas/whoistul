@@ -1,0 +1,63 @@
+---
+import type { ImageMetadata } from 'astro';
+import { Image } from 'astro:assets';
+import Section from './Section.astro';
+
+interface Props {
+  headline: string;
+  subheadline: string;
+  image?: ImageMetadata;
+  imageAlt?: string;
+}
+
+const { headline, subheadline, image, imageAlt = '' } = Astro.props;
+---
+
+<Section id="hero">
+  <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-8 md:gap-12">
+    <!-- Text content -->
+    <div class="flex-1 text-center md:text-left">
+      <h1 class="font-display text-[2rem] md:text-hero font-bold text-text leading-tight">
+        {headline}
+      </h1>
+      <p class="mt-4 text-lg md:text-xl text-text-muted leading-relaxed max-w-lg mx-auto md:mx-0">
+        {subheadline}
+      </p>
+    </div>
+
+    <!-- Portrait image -->
+    <div class="flex-shrink-0 flex justify-center md:justify-end">
+      {image ? (
+        <Image
+          src={image}
+          alt={imageAlt}
+          width={400}
+          height={400}
+          loading="eager"
+          class="rounded-2xl w-64 h-64 md:w-80 md:h-80 object-cover bg-bg-alt"
+        />
+      ) : (
+        <div
+          class="rounded-2xl w-64 h-64 md:w-80 md:h-80 bg-bg-alt flex items-center justify-center"
+          role="img"
+          aria-label={imageAlt || 'Portrait placeholder'}
+        >
+          <svg
+            class="w-16 h-16 text-text-muted/30"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+            aria-hidden="true"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="1.5"
+              d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z"
+            />
+          </svg>
+        </div>
+      )}
+    </div>
+  </div>
+</Section>

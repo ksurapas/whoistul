@@ -1,0 +1,59 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../components/BaseLayout.astro';
+import HeroSection from '../components/HeroSection.astro';
+import IntroSection from '../components/IntroSection.astro';
+import NowSection from '../components/NowSection.astro';
+import FeaturedCards from '../components/FeaturedCards.astro';
+import CTASection from '../components/CTASection.astro';
+import { sortByDateDesc } from '../lib/utils';
+
+// Fetch home page content for intro
+const homeEntry = await getCollection('pages').then((pages) =>
+  pages.find((p) => p.slug === 'home')
+);
+
+// Fetch now content collection
+const nowEntries = await getCollection('now');
+const nowEntry = nowEntries[0];
+
+// Fetch blog posts: filter out drafts, sort by date desc, take up to 3
+const allBlogPosts = await getCollection('blog', ({ data }) => !data.draft);
+const latestPosts = sortByDateDesc(allBlogPosts).slice(0, 3);
+
+// Map blog posts to featured card items
+const featuredItems = latestPosts.map((post) => ({
+  title: post.data.title,
+  description: post.data.excerpt,
+  href: `/blog/${post.slug}`,
+}));
+
+// Render now entry body
+const nowRendered = nowEntry ? await nowEntry.render() : null;
+---
+
+<BaseLayout
+  title="Tul — Data Analyst, Curious Generalist"
+  description={homeEntry?.data.description ?? 'Tul — Data Analyst, Economics graduate, and curious generalist based in Bangkok.'}
+  currentPage="home"
+>
+  <HeroSection
+    headline="Hi, I'm Tul"
+    subheadline="Data Analyst at PwC Thailand. Economics graduate. Curious generalist."
+  />
+
+  {homeEntry && (
+    <IntroSection content={homeEntry.body ?? ''} />
+  )}
+
+  {nowEntry && nowRendered && (
+    <NowSection
+      content={nowEntry.body ?? ''}
+      lastUpdated={nowEntry.data.lastUpdated}
+    />
+  )}
+
+  <FeaturedCards items={featuredItems} />
+
+  <CTASection />
+</BaseLayout>

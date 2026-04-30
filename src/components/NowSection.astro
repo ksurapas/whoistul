@@ -1,0 +1,27 @@
+---
+import Section from './Section.astro';
+import { formatDate } from '../lib/utils';
+
+interface Props {
+  content: string;
+  lastUpdated: Date;
+}
+
+const { content, lastUpdated } = Astro.props;
+---
+
+<Section id="now">
+  <div class="max-w-2xl mx-auto">
+    <div class="bg-card border border-border rounded-lg p-6 sm:p-8">
+      <div class="flex items-center justify-between mb-4">
+        <h2 class="text-xl md:text-2xl font-semibold font-display text-text">Now</h2>
+        <span class="text-sm text-text-muted font-body">
+          Updated {formatDate(lastUpdated)}
+        </span>
+      </div>
+      <div class="text-text-muted font-body leading-relaxed whitespace-pre-line">
+        {content}
+      </div>
+    </div>
+  </div>
+</Section>

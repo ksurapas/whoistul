@@ -1,0 +1,26 @@
+---
+interface Props {
+  title: string;
+  description: string;
+  ogImage?: string;
+  canonicalUrl?: string;
+}
+
+const { title, description, ogImage, canonicalUrl } = Astro.props;
+const siteUrl = Astro.site?.toString().replace(/\/$/, '') ?? 'https://www.whoistul.com';
+const resolvedOgImage = ogImage ? new URL(ogImage, siteUrl).toString() : undefined;
+const resolvedCanonical = canonicalUrl ? new URL(canonicalUrl, siteUrl).toString() : undefined;
+---
+
+<title>{title}</title>
+<meta name="description" content={description} />
+
+<!-- Open Graph -->
+<meta property="og:title" content={title} />
+<meta property="og:description" content={description} />
+<meta property="og:type" content="website" />
+{resolvedOgImage && <meta property="og:image" content={resolvedOgImage} />}
+{resolvedCanonical && <meta property="og:url" content={resolvedCanonical} />}
+
+<!-- Canonical URL -->
+{resolvedCanonical && <link rel="canonical" href={resolvedCanonical} />}

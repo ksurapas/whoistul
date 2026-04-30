@@ -1,0 +1,88 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../components/BaseLayout.astro';
+import HobbyNav from '../components/HobbyNav.astro';
+import PhotographySection from '../components/PhotographySection.astro';
+import TravelSection from '../components/TravelSection.astro';
+import SportsSection from '../components/SportsSection.astro';
+import MotorsportSection from '../components/MotorsportSection.astro';
+
+// Fetch hobbies page metadata
+const pagesEntries = await getCollection('pages');
+const hobbiesPage = pagesEntries.find((p) => p.slug === 'hobbies');
+
+// Fetch all hobby entries and group by category
+const hobbiesEntries = await getCollection('hobbies');
+
+type HobbyCategory = 'photography' | 'travel' | 'sports' | 'motorsport';
+
+// Sort entries by order field
+const sortedEntries = [...hobbiesEntries].sort(
+  (a, b) => (a.data.order ?? 99) - (b.data.order ?? 99)
+);
+
+// Group entries by category (take first entry per category)
+const byCategory = new Map<HobbyCategory, (typeof sortedEntries)[number]>();
+for (const entry of sortedEntries) {
+  const cat = entry.data.category as HobbyCategory;
+  if (!byCategory.has(cat)) {
+    byCategory.set(cat, entry);
+  }
+}
+
+// Render each entry's Markdown body to a Content component
+const photography = byCategory.get('photography');
+const travel = byCategory.get('travel');
+const sports = byCategory.get('sports');
+const motorsport = byCategory.get('motorsport');
+
+const photographyContent = photography ? await photography.render() : null;
+const travelContent = travel ? await travel.render() : null;
+const sportsContent = sports ? await sports.render() : null;
+const motorsportContent = motorsport ? await motorsport.render() : null;
+---
+
+<BaseLayout
+  title="Hobbies — Tul"
+  description={hobbiesPage?.data.description ?? 'Photography, travel, badminton, and Formula 1 — the things that keep life interesting outside of work.'}
+  currentPage="hobbies"
+>
+  <h1 class="text-3xl md:text-4xl font-bold font-display text-text text-center pt-12 mb-4">
+    Hobbies
+  </h1>
+  {hobbiesPage?.data.description && (
+    <p class="text-center text-text-muted font-body mb-8 max-w-2xl mx-auto">
+      {hobbiesPage.data.description}
+    </p>
+  )}
+
+  <HobbyNav />
+
+  <PhotographySection
+    title={photography?.data.title ?? 'Photography'}
+    description={photography?.data.description}
+  >
+    {photographyContent && <photographyContent.Content />}
+  </PhotographySection>
+
+  <TravelSection
+    title={travel?.data.title ?? 'Travel'}
+    description={travel?.data.description}
+  >
+    {travelContent && <travelContent.Content />}
+  </TravelSection>
+
+  <SportsSection
+    title={sports?.data.title ?? 'Sports'}
+    description={sports?.data.description}
+  >
+    {sportsContent && <sportsContent.Content />}
+  </SportsSection>
+
+  <MotorsportSection
+    title={motorsport?.data.title ?? 'Motorsport'}
+    description={motorsport?.data.description}
+  >
+    {motorsportContent && <motorsportContent.Content />}
+  </MotorsportSection>
+</BaseLayout>
