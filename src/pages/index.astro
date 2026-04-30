@@ -32,20 +32,28 @@ const featuredItems = latestPosts.map((post) => ({
   <!-- Full-width hero banner -->
   <HeroBanner
     headline="H E L L O."
-    subheadline="Data Analyst at PwC Thailand. Economics graduate. Curious generalist."
+    subheadline="Data Analyst at Monix, Ex-PwC. Economics graduate. Curious generalist."
     ctaText="Explore Journey"
     ctaHref={`${base}/journey`}
   />
 
-  <!-- About section with scroll-reveal -->
+  <!-- About section with GIF -->
   <section class="py-20 reveal-section">
-    <div class="max-w-3xl mx-auto text-center">
-      <h2 class="text-2xl md:text-3xl font-bold font-display text-text mb-6 reveal-item">About</h2>
-      <p class="text-lg text-text-muted font-body leading-relaxed reveal-item">
-        I'm Tul — a Data Analyst at PwC Thailand with a background in Economics from Chulalongkorn University.
-        I spend my days turning data into insights and my weekends behind a camera or on a badminton court.
-        This site is a space for my work, my interests, and the things I'm learning along the way.
-      </p>
+    <div class="max-w-4xl mx-auto flex flex-col md:flex-row items-center gap-8 md:gap-12">
+      <div class="flex-1 text-center md:text-left reveal-item">
+        <h2 class="text-2xl md:text-3xl font-bold font-display text-text mb-6">About Me</h2>
+        <p class="text-lg text-text-muted font-body leading-relaxed">
+          Hi, I'm Tul — a data analyst who enjoys turning complexity into clarity. Outside of work, I'm passionate about photography, especially landscapes and astrophotography, and I'm a big motorsport fan who loves the mix of precision, speed, and focus.
+        </p>
+      </div>
+      <!-- GIF placeholder — replace src with your own GIF -->
+      <!-- To add your GIF: put it in public/ folder (e.g. public/me.gif) and change src below -->
+      <div class="flex-shrink-0 reveal-item">
+        <div class="w-48 h-48 md:w-56 md:h-56 rounded-2xl border-2 border-border bg-bg-alt flex items-center justify-center overflow-hidden">
+          <!-- Replace this placeholder with: <img src="/whoistul/me.gif" alt="Tul" class="w-full h-full object-cover" /> -->
+          <span class="text-sm text-text-muted/40 text-center px-4">GIF of myself</span>
+        </div>
+      </div>
     </div>
   </section>
 

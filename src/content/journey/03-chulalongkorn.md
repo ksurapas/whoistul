@@ -2,7 +2,7 @@
 title: "Chulalongkorn University"
 subtitle: "Bachelor of Economics (EBA)"
 date: 2019-08-01
-description: "Four years studying Economics at Thailand's top university. Built a foundation in econometrics, data analysis, and structured thinking."
+description: "Four years studying Economics at Thailand's top university. Built a strong foundation and discovered my interest in becoming a data analyst. It was also where I developed my analytical thinking and curiosity for working with data."
 order: 3
 ---
 

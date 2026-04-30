@@ -2,7 +2,7 @@
 title: "Suankularb Wittayalai Rangsit School"
 subtitle: "High School"
 date: 2016-05-01
-description: "Three years of rigorous academics and lifelong friendships. This is where I discovered my interest in numbers and analytical thinking."
+description: "I attended SKR for high school, where I broadened my perspective and met many great friends. It was a time that opened my world and helped shape who I am today."
 order: 2
 ---
 

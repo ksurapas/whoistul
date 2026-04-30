@@ -2,7 +2,7 @@
 title: "PwC Thailand"
 subtitle: "Data Analyst"
 date: 2023-07-01
-description: "Joined PwC's consulting practice, working on data-driven projects for enterprise clients across Southeast Asia."
+description: "PwC was my first full-time role, where I gained a wide range of knowledge and had the opportunity to work with and learn from many great friends, colleagues, and leaders. It was a place that accelerated both my professional growth and personal development."
 order: 7
 ---
 

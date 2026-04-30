@@ -16,7 +16,7 @@ const milestones = sortedMilestones.map((entry) => ({
   subtitle: entry.data.subtitle,
   date: formatMonthYear(entry.data.date),
   description: entry.data.description,
-  imageCount: entry.data.images?.length ?? 3,
+  imageCount: entry.data.images?.length || 1,
   id: entry.slug,
 }));
 ---

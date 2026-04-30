@@ -1,5 +1,6 @@
 ---
 import BaseLayout from '../../components/BaseLayout.astro';
+import ImageCarousel from '../../components/ImageCarousel.astro';
 
 const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 
@@ -14,10 +15,10 @@ const gear = [
 ];
 
 const recentWork = [
-  { title: 'Rocky Mountains, Colorado', description: 'Captured this dramatic mountain range during golden hour. The interplay of light and shadow brought out incredible texture in the peaks.' },
-  { title: 'Scottish Highlands', description: 'Rolling hills meeting distant lochs. The misty atmosphere created a dreamy, ethereal quality that perfectly captures the Scottish landscape.' },
-  { title: 'Bangkok Streets', description: 'The energy of Chinatown at dusk. Neon signs reflecting off wet pavement after an afternoon rain.' },
-  { title: 'Doi Inthanon', description: 'Thailand\'s highest peak at sunrise. The sea of fog below the summit made for an otherworldly scene.' },
+  { id: 'rocky-mountains', title: 'Rocky Mountains, Colorado', description: 'Captured this dramatic mountain range during golden hour. The interplay of light and shadow brought out incredible texture in the peaks.', photoCount: 4 },
+  { id: 'scottish-highlands', title: 'Scottish Highlands', description: 'Rolling hills meeting distant lochs. The misty atmosphere created a dreamy, ethereal quality that perfectly captures the Scottish landscape.', photoCount: 3 },
+  { id: 'bangkok-streets', title: 'Bangkok Streets', description: 'The energy of Chinatown at dusk. Neon signs reflecting off wet pavement after an afternoon rain.', photoCount: 5 },
+  { id: 'doi-inthanon', title: 'Doi Inthanon', description: 'Thailand\'s highest peak at sunrise. The sea of fog below the summit made for an otherworldly scene.', photoCount: 3 },
 ];
 ---
 
@@ -65,14 +66,14 @@ const recentWork = [
       </div>
     </section>
 
-    <!-- Recent Work -->
+    <!-- Recent Work with carousels -->
     <section>
       <h2 class="text-xl font-bold font-display text-text mb-6">Recent Work</h2>
       <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
         {recentWork.map((work) => (
-          <div class="group">
-            <div class="rounded-2xl bg-bg-alt h-56 md:h-64 flex items-center justify-center overflow-hidden mb-3">
-              <svg class="w-10 h-10 text-text-muted/20 group-hover:scale-110 transition-transform duration-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M2.25 15.75l5.159-5.159a2.25 2.25 0 013.182 0l5.159 5.159m-1.5-1.5l1.409-1.41a2.25 2.25 0 013.182 0l2.909 2.91M3.75 21h16.5A2.25 2.25 0 0022.5 18.75V5.25A2.25 2.25 0 0020.25 3H3.75A2.25 2.25 0 001.5 5.25v13.5A2.25 2.25 0 003.75 21z" /></svg>
+          <div>
+            <div class="mb-3">
+              <ImageCarousel id={`photo-${work.id}`} placeholderCount={work.photoCount} />
             </div>
             <h3 class="font-semibold font-display text-text text-sm">{work.title}</h3>
             <p class="text-xs text-text-muted mt-1 leading-relaxed">{work.description}</p>

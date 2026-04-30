@@ -2,7 +2,7 @@
 title: "Michelin Thailand"
 subtitle: "Intern"
 date: 2023-01-01
-description: "Interned at Michelin's Thailand operations, working on supply chain analytics and operational data. Learned how manufacturing meets data."
+description: "I worked at Michelin with the purchasing team, where I gained hands-on experience in business operations, learned how to effectively interact with suppliers, and used data to support decision-making."
 order: 6
 ---
 

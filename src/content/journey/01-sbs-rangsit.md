@@ -2,7 +2,7 @@
 title: "SBS Rangsit"
 subtitle: "Kindergarten – Middle School"
 date: 2010-05-01
-description: "Where it all started. SBS gave me a bilingual foundation and shaped my early curiosity about the world."
+description: "I spent my early years at SBS from kindergarten through middle school, where I built my foundation both academically and personally. It was a place that shaped my curiosity, discipline, and many of the friendships that have stayed with me."
 order: 1
 ---
 
