@@ -18,32 +18,71 @@ interface Props {
 const { milestones } = Astro.props;
 ---
 
-<Section id="timeline">
+<Section id="timeline" class="!px-0">
   {milestones.length > 0 ? (
-    <div class="space-y-24">
-      {milestones.map((milestone, index) => {
-        const imageOnRight = index % 2 === 0;
-        return (
-          <div class="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 items-center">
-            {/* Text side */}
-            <div class:list={[imageOnRight ? 'md:order-1' : 'md:order-2']}>
-              <span class="inline-block text-sm font-body text-text-muted mb-3 px-3 py-1 bg-bg-alt rounded-full">
-                {milestone.date}
-              </span>
-              <h3 class="text-2xl md:text-3xl font-bold font-display text-text leading-tight">
-                {milestone.title}
-              </h3>
-              {milestone.subtitle && (
-                <p class="text-lg font-medium text-accent mt-1">{milestone.subtitle}</p>
-              )}
-              <p class="text-base font-body text-text-muted leading-relaxed mt-4">
-                {milestone.description}
-              </p>
-            </div>
+    <div class="timeline-container relative max-w-5xl mx-auto px-4 sm:px-6">
+      {/* Center vertical line — hidden on mobile */}
+      <div class="hidden md:block absolute left-1/2 -translate-x-px top-0 bottom-0 w-[3px] bg-border" aria-hidden="true"></div>
 
-            {/* Image carousel side */}
-            <div class:list={[imageOnRight ? 'md:order-2' : 'md:order-1']}>
-              <ImageCarousel id={milestone.id} placeholderCount={milestone.imageCount ?? 3} />
+      {milestones.map((milestone, index) => {
+        const textOnLeft = index % 2 === 0;
+        return (
+          <div class="timeline-entry relative pb-24 last:pb-0">
+            {/* Center dot — hidden on mobile */}
+            <div class="hidden md:flex absolute left-1/2 -translate-x-1/2 top-6 z-10 w-5 h-5 rounded-full bg-text border-4 border-bg shadow-md" aria-hidden="true"></div>
+
+            {/* Two-column grid */}
+            <div class="grid grid-cols-1 md:grid-cols-[1fr_60px_1fr] items-start">
+              {/* Left column */}
+              <div class:list={['px-2 sm:px-4', textOnLeft ? '' : 'md:order-1']}>
+                {textOnLeft ? (
+                  <div class="md:text-right md:pr-4">
+                    <span class="inline-block text-sm font-body text-text-muted mb-2 px-3 py-1 bg-bg-alt rounded-full">
+                      {milestone.date}
+                    </span>
+                    <h3 class="text-xl sm:text-2xl font-bold font-display text-text leading-tight">
+                      {milestone.title}
+                    </h3>
+                    {milestone.subtitle && (
+                      <p class="text-base font-medium text-accent mt-0.5">{milestone.subtitle}</p>
+                    )}
+                    <p class="text-sm sm:text-base font-body text-text-muted leading-relaxed mt-3">
+                      {milestone.description}
+                    </p>
+                  </div>
+                ) : (
+                  <div class="md:pr-4">
+                    <ImageCarousel id={milestone.id} placeholderCount={milestone.imageCount ?? 3} />
+                  </div>
+                )}
+              </div>
+
+              {/* Center spacer (for the dot) */}
+              <div class="hidden md:block" />
+
+              {/* Right column */}
+              <div class:list={['px-2 sm:px-4 mt-4 md:mt-0', textOnLeft ? '' : 'md:order-3']}>
+                {textOnLeft ? (
+                  <div class="md:pl-4">
+                    <ImageCarousel id={milestone.id} placeholderCount={milestone.imageCount ?? 3} />
+                  </div>
+                ) : (
+                  <div class="md:pl-4">
+                    <span class="inline-block text-sm font-body text-text-muted mb-2 px-3 py-1 bg-bg-alt rounded-full">
+                      {milestone.date}
+                    </span>
+                    <h3 class="text-xl sm:text-2xl font-bold font-display text-text leading-tight">
+                      {milestone.title}
+                    </h3>
+                    {milestone.subtitle && (
+                      <p class="text-base font-medium text-accent mt-0.5">{milestone.subtitle}</p>
+                    )}
+                    <p class="text-sm sm:text-base font-body text-text-muted leading-relaxed mt-3">
+                      {milestone.description}
+                    </p>
+                  </div>
+                )}
+              </div>
             </div>
           </div>
         );

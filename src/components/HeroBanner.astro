@@ -9,37 +9,42 @@ interface Props {
 const { headline, subheadline, ctaText, ctaHref } = Astro.props;
 ---
 
-<section class="hero-banner relative w-screen left-1/2 -translate-x-1/2 h-[85vh] min-h-[500px] max-h-[900px] overflow-hidden bg-[#1a1a2e]">
-  <!-- Animated gradient background -->
-  <div class="absolute inset-0 hero-gradient"></div>
+<section class="hero-banner relative w-screen left-1/2 -translate-x-1/2 h-[85vh] min-h-[500px] max-h-[900px] overflow-hidden">
+  <!-- Background: dark base + optional image -->
+  <!-- To use a custom background image, replace the div below with:
+       <img src="/whoistul/your-image.jpg" class="absolute inset-0 w-full h-full object-cover" alt="" />
+       and put your image in the public/ folder -->
+  <div class="absolute inset-0 bg-[#161625]"></div>
 
-  <!-- Floating particles -->
-  <div class="absolute inset-0 overflow-hidden" aria-hidden="true">
-    <div class="particle particle-1"></div>
-    <div class="particle particle-2"></div>
-    <div class="particle particle-3"></div>
-    <div class="particle particle-4"></div>
-    <div class="particle particle-5"></div>
-    <div class="particle particle-6"></div>
+  <!-- Animated floating circles (Windows lock screen style) -->
+  <div class="hero-circles absolute inset-0 overflow-hidden" aria-hidden="true">
+    <div class="circle circle-1"></div>
+    <div class="circle circle-2"></div>
+    <div class="circle circle-3"></div>
+    <div class="circle circle-4"></div>
+    <div class="circle circle-5"></div>
+    <div class="circle circle-6"></div>
+    <div class="circle circle-7"></div>
+    <div class="circle circle-8"></div>
   </div>
 
-  <!-- Grid pattern overlay -->
-  <div class="absolute inset-0 opacity-[0.03]" style="background-image: linear-gradient(rgba(255,255,255,.1) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.1) 1px, transparent 1px); background-size: 60px 60px;" aria-hidden="true"></div>
+  <!-- Subtle overlay for text readability -->
+  <div class="absolute inset-0 bg-[#161625]/30"></div>
 
   <!-- Content -->
   <div class="relative z-10 h-full flex flex-col items-center justify-center text-center px-4 sm:px-6">
-    <h1 class="hero-title font-display text-white font-bold tracking-tight leading-none">
-      <span class="block text-[3rem] sm:text-[4rem] md:text-[5.5rem] lg:text-[7rem] opacity-0 animate-fade-up">{headline}</span>
+    <h1 class="font-display text-white font-bold tracking-[0.2em] sm:tracking-[0.3em] leading-none">
+      <span class="block text-[2.5rem] sm:text-[3.5rem] md:text-[5rem] lg:text-[6.5rem] opacity-0 animate-fade-up">{headline}</span>
     </h1>
 
-    <p class="mt-4 md:mt-6 text-lg sm:text-xl md:text-2xl text-white/70 font-body max-w-2xl opacity-0 animate-fade-up-delay">
+    <p class="mt-4 md:mt-6 text-base sm:text-lg md:text-xl text-white/60 font-body max-w-2xl leading-relaxed opacity-0 animate-fade-up-delay">
       {subheadline}
     </p>
 
     {ctaText && ctaHref && (
       <a
         href={ctaHref}
-        class="mt-8 md:mt-10 inline-flex items-center gap-2 px-8 py-4 text-sm font-medium tracking-wide uppercase text-white border border-white/30 rounded-full hover:bg-white hover:text-[#1a1a2e] transition-all duration-500 opacity-0 animate-fade-up-delay-2 min-h-[44px]"
+        class="mt-8 md:mt-10 inline-flex items-center gap-2 px-8 py-3.5 text-xs sm:text-sm font-medium tracking-[0.15em] uppercase text-white border border-white/25 rounded-full hover:bg-white hover:text-[#161625] transition-all duration-500 opacity-0 animate-fade-up-delay-2 min-h-[44px]"
       >
         {ctaText}
         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
@@ -50,80 +55,123 @@ const { headline, subheadline, ctaText, ctaHref } = Astro.props;
 
     <!-- Scroll indicator -->
     <div class="absolute bottom-8 left-1/2 -translate-x-1/2 opacity-0 animate-fade-up-delay-3">
-      <div class="flex flex-col items-center gap-2 text-white/40">
-        <span class="text-xs tracking-widest uppercase font-body">Scroll</span>
-        <div class="scroll-arrow">
-          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7" />
-          </svg>
-        </div>
+      <div class="flex flex-col items-center gap-2 text-white/30">
+        <span class="text-[10px] tracking-[0.25em] uppercase font-body">Scroll</span>
+        <svg class="w-4 h-4 scroll-arrow" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7" />
+        </svg>
       </div>
     </div>
   </div>
 </section>
 
 <style>
-  /* Animated gradient */
-  .hero-gradient {
-    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 25%, #0f3460 50%, #1a1a2e 75%, #16213e 100%);
-    background-size: 400% 400%;
-    animation: gradientShift 15s ease infinite;
-  }
-
-  @keyframes gradientShift {
-    0% { background-position: 0% 50%; }
-    50% { background-position: 100% 50%; }
-    100% { background-position: 0% 50%; }
-  }
-
-  /* Floating particles */
-  .particle {
+  /* Floating circles — slow drift like Windows lock screen */
+  .circle {
     position: absolute;
     border-radius: 50%;
-    background: rgba(255, 255, 255, 0.06);
-    animation: float linear infinite;
+    opacity: 0;
+    animation: drift linear infinite;
   }
 
-  .particle-1 { width: 300px; height: 300px; top: -100px; left: -50px; animation-duration: 20s; }
-  .particle-2 { width: 200px; height: 200px; top: 50%; right: -60px; animation-duration: 25s; animation-delay: -5s; }
-  .particle-3 { width: 150px; height: 150px; bottom: -40px; left: 30%; animation-duration: 18s; animation-delay: -3s; }
-  .particle-4 { width: 80px; height: 80px; top: 20%; left: 60%; animation-duration: 22s; animation-delay: -8s; background: rgba(59, 89, 152, 0.1); }
-  .particle-5 { width: 120px; height: 120px; top: 60%; left: 10%; animation-duration: 28s; animation-delay: -12s; background: rgba(59, 89, 152, 0.08); }
-  .particle-6 { width: 60px; height: 60px; top: 30%; right: 20%; animation-duration: 16s; animation-delay: -2s; }
+  /* Large soft circles */
+  .circle-1 {
+    width: 400px; height: 400px;
+    background: radial-gradient(circle, rgba(100, 120, 180, 0.12) 0%, transparent 70%);
+    top: -10%; left: -5%;
+    animation-duration: 35s;
+    animation-delay: 0s;
+  }
+  .circle-2 {
+    width: 350px; height: 350px;
+    background: radial-gradient(circle, rgba(80, 100, 160, 0.10) 0%, transparent 70%);
+    top: 15%; right: -8%;
+    animation-duration: 40s;
+    animation-delay: -8s;
+  }
+  .circle-3 {
+    width: 500px; height: 500px;
+    background: radial-gradient(circle, rgba(90, 110, 170, 0.08) 0%, transparent 70%);
+    bottom: -15%; left: 20%;
+    animation-duration: 45s;
+    animation-delay: -15s;
+  }
+  .circle-4 {
+    width: 250px; height: 250px;
+    background: radial-gradient(circle, rgba(120, 140, 200, 0.10) 0%, transparent 70%);
+    top: 50%; right: 15%;
+    animation-duration: 30s;
+    animation-delay: -5s;
+  }
+  .circle-5 {
+    width: 180px; height: 180px;
+    background: radial-gradient(circle, rgba(100, 130, 190, 0.12) 0%, transparent 70%);
+    top: 30%; left: 10%;
+    animation-duration: 28s;
+    animation-delay: -12s;
+  }
+  .circle-6 {
+    width: 300px; height: 300px;
+    background: radial-gradient(circle, rgba(70, 90, 150, 0.09) 0%, transparent 70%);
+    bottom: 10%; right: -3%;
+    animation-duration: 38s;
+    animation-delay: -20s;
+  }
+  .circle-7 {
+    width: 220px; height: 220px;
+    background: radial-gradient(circle, rgba(110, 130, 190, 0.07) 0%, transparent 70%);
+    top: -5%; right: 30%;
+    animation-duration: 32s;
+    animation-delay: -3s;
+  }
+  .circle-8 {
+    width: 160px; height: 160px;
+    background: radial-gradient(circle, rgba(90, 120, 180, 0.11) 0%, transparent 70%);
+    bottom: 25%; left: -2%;
+    animation-duration: 26s;
+    animation-delay: -18s;
+  }
 
-  @keyframes float {
-    0% { transform: translateY(0) rotate(0deg); opacity: 0.6; }
-    33% { transform: translateY(-30px) rotate(120deg); opacity: 1; }
-    66% { transform: translateY(15px) rotate(240deg); opacity: 0.6; }
-    100% { transform: translateY(0) rotate(360deg); opacity: 0.6; }
+  @keyframes drift {
+    0% {
+      transform: translate(0, 0) scale(1);
+      opacity: 0.6;
+    }
+    25% {
+      transform: translate(40px, -30px) scale(1.05);
+      opacity: 0.9;
+    }
+    50% {
+      transform: translate(-20px, 20px) scale(0.95);
+      opacity: 0.7;
+    }
+    75% {
+      transform: translate(30px, 40px) scale(1.08);
+      opacity: 0.85;
+    }
+    100% {
+      transform: translate(0, 0) scale(1);
+      opacity: 0.6;
+    }
   }
 
   /* Scroll arrow bounce */
   .scroll-arrow {
-    animation: bounce 2s ease-in-out infinite;
+    animation: bounce 2.5s ease-in-out infinite;
   }
-
   @keyframes bounce {
     0%, 100% { transform: translateY(0); }
-    50% { transform: translateY(6px); }
+    50% { transform: translateY(5px); }
   }
 
   /* Fade-up entrance animations */
-  .animate-fade-up {
-    animation: fadeUp 1s ease forwards;
-  }
-  .animate-fade-up-delay {
-    animation: fadeUp 1s ease 0.3s forwards;
-  }
-  .animate-fade-up-delay-2 {
-    animation: fadeUp 1s ease 0.6s forwards;
-  }
-  .animate-fade-up-delay-3 {
-    animation: fadeUp 1s ease 1s forwards;
-  }
+  .animate-fade-up { animation: fadeUp 1s ease forwards; }
+  .animate-fade-up-delay { animation: fadeUp 1s ease 0.3s forwards; }
+  .animate-fade-up-delay-2 { animation: fadeUp 1s ease 0.6s forwards; }
+  .animate-fade-up-delay-3 { animation: fadeUp 1.2s ease 1.2s forwards; }
 
   @keyframes fadeUp {
-    from { opacity: 0; transform: translateY(30px); }
+    from { opacity: 0; transform: translateY(25px); }
     to { opacity: 1; transform: translateY(0); }
   }
 </style>

@@ -17,6 +17,7 @@ The site features a homepage, career journey timeline, blog, hobbies showcase, a
 - [Pulling to a Personal Device](#pulling-to-a-personal-device)
 - [Image Management](#image-management)
 - [Text Content Editing](#text-content-editing)
+- [Customizing the Homepage Hero Background](#customizing-the-homepage-hero-background)
 - [CMS Admin Interface](#cms-admin-interface)
 - [Writing Style Guide](#writing-style-guide)
 
@@ -519,6 +520,70 @@ Update the `lastUpdated` date whenever you edit this file so visitors know how r
 Location: `src/content/pages/`
 
 Files like `home.md`, `contact.md`, and `hobbies.md` contain the text content for those pages. Edit them the same way — update the frontmatter fields and body text as needed.
+
+---
+
+## Customizing the Homepage Hero Background
+
+The homepage has a full-screen hero banner with animated floating circles on a dark background. You can replace this with your own background image (a landscape photo, a city skyline, etc.) while keeping the text and animations on top.
+
+### Option 1: Use a background image
+
+1. Pick a photo you like. Landscape orientation works best (wider than tall). Aim for at least 1920px wide for sharp display on large screens.
+
+2. Name the file something simple like `hero-bg.jpg` and put it in the `public/` folder:
+   ```
+   public/
+   ├── hero-bg.jpg    ← your new background image
+   ├── favicon.svg
+   ├── robots.txt
+   └── ...
+   ```
+
+3. Open `src/components/HeroBanner.astro` and find this line near the top:
+   ```html
+   <div class="absolute inset-0 bg-[#161625]"></div>
+   ```
+
+4. Replace it with:
+   ```html
+   <img src="/whoistul/hero-bg.jpg" class="absolute inset-0 w-full h-full object-cover" alt="" />
+   ```
+
+   (If you later switch to a custom domain, change `/whoistul/hero-bg.jpg` to just `/hero-bg.jpg`)
+
+5. Commit and push:
+   ```bash
+   git add .
+   git commit -m "Add hero background image"
+   git push
+   ```
+
+The floating circles will still animate on top of your image, giving it a polished layered effect. If the text is hard to read over your image, the overlay layer (`bg-[#161625]/30`) adds a dark tint. You can increase the number (e.g., `/50` or `/60`) for a darker overlay.
+
+### Option 2: Change the background color
+
+If you want a different solid color instead of the default dark navy:
+
+1. Open `src/components/HeroBanner.astro`
+2. Find `bg-[#161625]` and change the hex color to whatever you want
+3. The circle colors are defined in the `<style>` section — you can adjust the `rgba` values to match your new background
+
+### Option 3: Keep the animated circles (default)
+
+The default is a dark background with slowly drifting translucent circles. No changes needed — it works out of the box.
+
+### Where to find free background images
+
+- [Unsplash](https://unsplash.com) — free high-quality photos, no attribution required
+- [Pexels](https://pexels.com) — free stock photos
+- Search for terms like "dark landscape", "city night", "abstract dark", "moody nature" for images that work well with white text on top
+
+### Tips
+
+- **Dark images work best** — the text is white, so a dark or moody photo gives the best contrast
+- **File size matters** — keep the image under 500KB if possible for fast loading. Use [TinyPNG](https://tinypng.com) or [Squoosh](https://squoosh.app) to compress it
+- **JPG or WebP** — use JPG for photos, WebP for smaller file sizes
 
 ---
 
