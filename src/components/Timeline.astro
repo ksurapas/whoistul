@@ -29,8 +29,8 @@ const { milestones } = Astro.props;
           const textOnLeft = index % 2 === 0;
           return (
             <div class="relative md:flex md:items-start pb-20 last:pb-0">
-              {/* Dot — aligned with the title */}
-              <div class="hidden md:block absolute left-1/2 -translate-x-1/2 top-[2px] z-10">
+              {/* Dot — aligned with center of image carousel */}
+              <div class="hidden md:block absolute left-1/2 -translate-x-1/2 top-[160px] -translate-y-1/2 z-10">
                 <div class="w-5 h-5 rounded-full bg-text border-4 border-bg shadow-md"></div>
               </div>
 

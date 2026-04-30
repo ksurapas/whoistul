@@ -1,0 +1,108 @@
+---
+import BaseLayout from '../../components/BaseLayout.astro';
+
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+
+const gear = [
+  { name: 'Canon EOS R5', type: 'Camera Body', icon: '📷' },
+  { name: 'RF 24-70mm f/2.8L', type: 'Standard Zoom', icon: '🔭' },
+  { name: 'RF 70-200mm f/2.8L', type: 'Telephoto Zoom', icon: '🔭' },
+  { name: 'RF 16mm f/2.8', type: 'Wide Angle Prime', icon: '🔭' },
+  { name: 'Godox AD200 Pro', type: 'Strobe Flash', icon: '⚡' },
+  { name: 'Peak Design Tripod', type: 'Carbon Fiber', icon: '📐' },
+];
+
+const techGadgets = [
+  { name: 'iPhone 15 Pro Max', description: 'My daily driver for quick shots and behind-the-scenes content. The computational photography is impressive.', icon: '📱' },
+  { name: 'MacBook Pro M3', description: 'Essential for editing RAW files and managing my photo library. The performance handles 45MP files effortlessly.', icon: '💻' },
+  { name: 'Sony WH-1000XM5', description: 'Perfect for long editing sessions. Industry-leading noise cancellation helps me focus on color grading.', icon: '🎧' },
+  { name: 'Apple Watch Ultra', description: 'Great for tracking hikes to remote locations and monitoring weather conditions during shoots.', icon: '⌚' },
+  { name: 'iPad Pro 12.9"', description: 'Portable editing station for reviewing and culling photos on location. Works seamlessly with Lightroom.', icon: '📱' },
+  { name: 'HomePod Mini', description: 'Keeps me company during late-night editing sessions with great sound quality in my workspace.', icon: '🔊' },
+];
+
+const recentWork = [
+  { title: 'Rocky Mountains, Colorado', description: 'Captured this dramatic mountain range during golden hour. The interplay of light and shadow brought out incredible texture in the peaks.' },
+  { title: 'Scottish Highlands', description: 'Rolling hills meeting distant lochs. The misty atmosphere created a dreamy, ethereal quality that perfectly captures the Scottish landscape.' },
+  { title: 'Bangkok Streets', description: 'The energy of Chinatown at dusk. Neon signs reflecting off wet pavement after an afternoon rain.' },
+  { title: 'Doi Inthanon', description: 'Thailand\'s highest peak at sunrise. The sea of fog below the summit made for an otherworldly scene.' },
+];
+---
+
+<BaseLayout
+  title="Photography — Tul"
+  description="My photography journey — gear, tech, and recent work."
+  currentPage="hobbies"
+>
+  <div class="pt-8 pb-20">
+    <!-- Back link -->
+    <a href={`${base}/hobbies`} class="inline-flex items-center gap-1 text-sm text-text-muted hover:text-accent transition-colors duration-200 mb-8">
+      <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" /></svg>
+      Hobbies
+    </a>
+
+    <!-- Hero: Image + Text side by side -->
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 items-center mb-20">
+      <div class="rounded-2xl bg-bg-alt h-64 md:h-80 flex items-center justify-center overflow-hidden">
+        <svg class="w-16 h-16 text-text-muted/20" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M6.827 6.175A2.31 2.31 0 015.186 7.23c-.38.054-.757.112-1.134.175C2.999 7.58 2.25 8.507 2.25 9.574V18a2.25 2.25 0 002.25 2.25h15A2.25 2.25 0 0021.75 18V9.574c0-1.067-.75-1.994-1.802-2.169a47.865 47.865 0 00-1.134-.175 2.31 2.31 0 01-1.64-1.055l-.822-1.316a2.192 2.192 0 00-1.736-1.039 48.774 48.774 0 00-5.232 0 2.192 2.192 0 00-1.736 1.039l-.821 1.316z" /><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M16.5 12.75a4.5 4.5 0 11-9 0 4.5 4.5 0 019 0z" /></svg>
+      </div>
+      <div>
+        <h1 class="text-3xl md:text-4xl font-bold font-display text-text mb-4">My Photography Journey</h1>
+        <p class="text-text-muted font-body leading-relaxed mb-4">
+          Capturing moments through the lens has been my passion for over a decade. I specialize in landscape photography, always chasing the perfect light and exploring remote locations to find unique perspectives.
+        </p>
+        <p class="text-text-muted font-body leading-relaxed">
+          From mountain peaks to rolling valleys, each photograph tells a story of patience, timing, and connection with nature.
+        </p>
+      </div>
+    </div>
+
+    <!-- My Gear -->
+    <section class="mb-20">
+      <h2 class="text-xl font-bold font-display text-text mb-6">My Gear</h2>
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+        {gear.map((item) => (
+          <div class="flex items-center gap-4 p-4 rounded-xl border border-border bg-card hover:border-accent/30 transition-colors duration-300">
+            <span class="text-2xl flex-shrink-0">{item.icon}</span>
+            <div>
+              <p class="font-semibold font-display text-text text-sm">{item.name}</p>
+              <p class="text-xs text-text-muted">{item.type}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+    </section>
+
+    <!-- Tech & Gadgets -->
+    <section class="mb-20">
+      <h2 class="text-xl font-bold font-display text-text mb-6">Tech & Gadgets</h2>
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+        {techGadgets.map((item) => (
+          <div class="p-5 rounded-xl border border-border bg-card hover:border-accent/30 transition-colors duration-300">
+            <div class="flex items-center gap-3 mb-3">
+              <span class="text-xl">{item.icon}</span>
+              <p class="font-semibold font-display text-text text-sm">{item.name}</p>
+            </div>
+            <p class="text-xs text-text-muted leading-relaxed">{item.description}</p>
+          </div>
+        ))}
+      </div>
+    </section>
+
+    <!-- Recent Work -->
+    <section>
+      <h2 class="text-xl font-bold font-display text-text mb-6">Recent Work</h2>
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+        {recentWork.map((work) => (
+          <div class="group">
+            <div class="rounded-2xl bg-bg-alt h-56 md:h-64 flex items-center justify-center overflow-hidden mb-3">
+              <svg class="w-10 h-10 text-text-muted/20 group-hover:scale-110 transition-transform duration-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M2.25 15.75l5.159-5.159a2.25 2.25 0 013.182 0l5.159 5.159m-1.5-1.5l1.409-1.41a2.25 2.25 0 013.182 0l2.909 2.91M3.75 21h16.5A2.25 2.25 0 0022.5 18.75V5.25A2.25 2.25 0 0020.25 3H3.75A2.25 2.25 0 001.5 5.25v13.5A2.25 2.25 0 003.75 21z" /></svg>
+            </div>
+            <h3 class="font-semibold font-display text-text text-sm">{work.title}</h3>
+            <p class="text-xs text-text-muted mt-1 leading-relaxed">{work.description}</p>
+          </div>
+        ))}
+      </div>
+    </section>
+  </div>
+</BaseLayout>

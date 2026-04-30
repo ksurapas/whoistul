@@ -1,114 +1,85 @@
 ---
-import { getCollection } from 'astro:content';
 import BaseLayout from '../components/BaseLayout.astro';
-import HobbyCard from '../components/HobbyCard.astro';
-import HobbyDetail from '../components/HobbyDetail.astro';
 
-// Fetch hobbies page metadata
-const pagesEntries = await getCollection('pages');
-const hobbiesPage = pagesEntries.find((p) => p.slug === 'hobbies');
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 
-// Fetch all hobby entries and sort by order
-const hobbiesEntries = await getCollection('hobbies');
-const sortedEntries = [...hobbiesEntries].sort(
-  (a, b) => (a.data.order ?? 99) - (b.data.order ?? 99)
-);
-
-type HobbyCategory = 'photography' | 'travel' | 'sports' | 'motorsport';
-
-// Group by category (take first entry per category for detail sections)
-const byCategory = new Map<HobbyCategory, (typeof sortedEntries)[number]>();
-for (const entry of sortedEntries) {
-  const cat = entry.data.category as HobbyCategory;
-  if (!byCategory.has(cat)) {
-    byCategory.set(cat, entry);
-  }
-}
-
-const photography = byCategory.get('photography');
-const travel = byCategory.get('travel');
-const sports = byCategory.get('sports');
-const motorsport = byCategory.get('motorsport');
-
-const photographyContent = photography ? await photography.render() : null;
-const travelContent = travel ? await travel.render() : null;
-const sportsContent = sports ? await sports.render() : null;
-const motorsportContent = motorsport ? await motorsport.render() : null;
-
-// All entries for the masonry grid
-const cardEntries = sortedEntries.map((entry) => ({
-  title: entry.data.title,
-  category: entry.data.category,
-  description: entry.data.description,
-  slug: entry.data.category,
-}));
+const hobbies = [
+  {
+    title: 'Photography',
+    description: 'Capturing moments through the lens. Landscape and street photography.',
+    href: `${base}/hobbies/photography`,
+    icon: '📷',
+    color: 'from-blue-500/20 to-indigo-500/20',
+  },
+  {
+    title: 'Sports',
+    description: 'Badminton, swimming, and staying active. The gear that keeps me going.',
+    href: `${base}/hobbies/sports`,
+    icon: '🏸',
+    color: 'from-green-500/20 to-emerald-500/20',
+  },
+  {
+    title: 'Tech & Gadgets',
+    description: 'My collection of tech purchases and favorite gadgets.',
+    href: `${base}/hobbies/tech`,
+    icon: '💻',
+    color: 'from-purple-500/20 to-pink-500/20',
+  },
+  {
+    title: 'Travel',
+    description: 'Exploring new places with a camera and a loose itinerary.',
+    href: `${base}/hobbies/travel`,
+    icon: '✈️',
+    color: 'from-orange-500/20 to-amber-500/20',
+    comingSoon: true,
+  },
+];
 ---
 
 <BaseLayout
   title="Hobbies — Tul"
-  description={hobbiesPage?.data.description ?? 'Photography, travel, badminton, and Formula 1 — the things that keep life interesting outside of work.'}
+  description="Photography, sports, tech, and travel — the things that keep life interesting outside of work."
   currentPage="hobbies"
 >
-  <!-- Header -->
-  <div class="pt-12 pb-6 text-center">
-    <h1 class="text-3xl md:text-4xl font-bold font-display text-text mb-4">
+  <div class="pt-12 pb-20">
+    <h1 class="text-3xl md:text-4xl font-bold font-display text-text text-center mb-3">
       Hobbies
     </h1>
-    {hobbiesPage?.data.description && (
-      <p class="text-text-muted font-body max-w-2xl mx-auto">
-        {hobbiesPage.data.description}
-      </p>
-    )}
-  </div>
+    <p class="text-center text-text-muted font-body max-w-xl mx-auto mb-14">
+      Work is a big part of who I am, but it's not the whole picture. These are the things I spend my time on outside of spreadsheets.
+    </p>
 
-  <!-- Chester.how-style masonry card grid -->
-  <div class="max-w-content mx-auto px-4 sm:px-6 lg:px-8 pb-16">
-    <div class="columns-1 sm:columns-2 lg:columns-3 xl:columns-4 gap-4 space-y-4">
-      {cardEntries.map((entry) => (
-        <div class="break-inside-avoid">
-          <HobbyCard
-            title={entry.title}
-            category={entry.category}
-            description={entry.description}
-            href={`#${entry.slug}`}
-          />
-        </div>
+    <div class="grid grid-cols-1 sm:grid-cols-2 gap-6 max-w-3xl mx-auto">
+      {hobbies.map((hobby) => (
+        <a
+          href={hobby.comingSoon ? undefined : hobby.href}
+          class:list={[
+            'group relative block rounded-2xl border border-border overflow-hidden transition-all duration-500',
+            hobby.comingSoon
+              ? 'opacity-50 cursor-not-allowed'
+              : 'hover:shadow-xl hover:-translate-y-1 hover:border-accent/30',
+          ]}
+        >
+          {/* Gradient background */}
+          <div class:list={['absolute inset-0 bg-gradient-to-br opacity-0 group-hover:opacity-100 transition-opacity duration-500', hobby.color]}></div>
+
+          <div class="relative p-8">
+            <span class="text-4xl mb-4 block">{hobby.icon}</span>
+            <h2 class="text-xl font-bold font-display text-text group-hover:text-accent transition-colors duration-300">
+              {hobby.title}
+              {hobby.comingSoon && <span class="ml-2 text-xs font-normal text-text-muted bg-bg-alt px-2 py-0.5 rounded-full">Coming soon</span>}
+            </h2>
+            <p class="mt-2 text-sm text-text-muted leading-relaxed">{hobby.description}</p>
+
+            {!hobby.comingSoon && (
+              <div class="mt-4 flex items-center gap-1 text-sm text-accent font-medium opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                Explore
+                <svg class="w-4 h-4 group-hover:translate-x-1 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" /></svg>
+              </div>
+            )}
+          </div>
+        </a>
       ))}
     </div>
   </div>
-
-  <!-- Sticky nav -->
-  <nav class="sticky top-0 z-40 bg-bg/90 backdrop-blur-sm border-y border-border" aria-label="Hobby sections">
-    <div class="max-w-content mx-auto px-4 sm:px-6 lg:px-8">
-      <ul class="flex items-center gap-2 sm:gap-6 overflow-x-auto py-3">
-        {['Photography', 'Travel', 'Sports', 'Motorsport'].map((label) => (
-          <li class="flex-shrink-0">
-            <a
-              href={`#${label.toLowerCase()}`}
-              class="inline-flex items-center justify-center px-4 py-2 text-sm font-medium text-text-muted rounded-full transition-all duration-300 hover:text-accent hover:bg-accent/10 whitespace-nowrap min-h-[44px]"
-            >
-              {label}
-            </a>
-          </li>
-        ))}
-      </ul>
-    </div>
-  </nav>
-
-  <!-- Detail sections -->
-  <HobbyDetail id="photography" title={photography?.data.title ?? 'Photography'} description={photography?.data.description}>
-    {photographyContent && <photographyContent.Content />}
-  </HobbyDetail>
-
-  <HobbyDetail id="travel" title={travel?.data.title ?? 'Travel'} description={travel?.data.description} altBg>
-    {travelContent && <travelContent.Content />}
-  </HobbyDetail>
-
-  <HobbyDetail id="sports" title={sports?.data.title ?? 'Sports'} description={sports?.data.description}>
-    {sportsContent && <sportsContent.Content />}
-  </HobbyDetail>
-
-  <HobbyDetail id="motorsport" title={motorsport?.data.title ?? 'Motorsport'} description={motorsport?.data.description} altBg>
-    {motorsportContent && <motorsportContent.Content />}
-  </HobbyDetail>
 </BaseLayout>
