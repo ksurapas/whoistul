@@ -1,0 +1,54 @@
+---
+interface Props {
+  id: string;
+  title: string;
+  description?: string;
+  altBg?: boolean;
+}
+
+const { id, title, description, altBg = false } = Astro.props;
+---
+
+<section id={id} class:list={['py-20 scroll-mt-16', altBg ? 'bg-bg-alt' : '']}>
+  <div class="max-w-content mx-auto px-4 sm:px-6 lg:px-8">
+    <!-- Hero area with large placeholder -->
+    <div class="rounded-2xl bg-bg-alt overflow-hidden mb-10 relative h-64 md:h-80 flex items-end shadow-sm">
+      <div class="absolute inset-0 flex items-center justify-center">
+        <svg class="w-16 h-16 text-text-muted/15" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M2.25 15.75l5.159-5.159a2.25 2.25 0 013.182 0l5.159 5.159m-1.5-1.5l1.409-1.41a2.25 2.25 0 013.182 0l2.909 2.91M3.75 21h16.5A2.25 2.25 0 0022.5 18.75V5.25A2.25 2.25 0 0020.25 3H3.75A2.25 2.25 0 001.5 5.25v13.5A2.25 2.25 0 003.75 21z" />
+        </svg>
+      </div>
+      <div class="relative z-10 p-6 md:p-8 bg-gradient-to-t from-black/50 to-transparent w-full">
+        <h2 class="text-2xl md:text-3xl font-bold font-display text-white">{title}</h2>
+        {description && (
+          <p class="text-white/80 font-body mt-1 max-w-xl">{description}</p>
+        )}
+      </div>
+    </div>
+
+    <!-- Content from markdown -->
+    <div class="prose-content text-text-muted font-body leading-relaxed max-w-3xl">
+      <slot />
+    </div>
+
+    <!-- Gallery grid placeholders -->
+    <div class="mt-10 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+      {[1, 2, 3, 4].map((i) => (
+        <div class="aspect-square rounded-xl bg-card border border-border overflow-hidden flex items-center justify-center hover:shadow-md transition-shadow duration-300">
+          <svg class="w-8 h-8 text-text-muted/20" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M2.25 15.75l5.159-5.159a2.25 2.25 0 013.182 0l5.159 5.159m-1.5-1.5l1.409-1.41a2.25 2.25 0 013.182 0l2.909 2.91M3.75 21h16.5A2.25 2.25 0 0022.5 18.75V5.25A2.25 2.25 0 0020.25 3H3.75A2.25 2.25 0 001.5 5.25v13.5A2.25 2.25 0 003.75 21z" />
+          </svg>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  .prose-content :global(p) {
+    @apply mb-4 text-base leading-relaxed;
+  }
+  .prose-content :global(strong) {
+    @apply font-semibold text-text;
+  }
+</style>
